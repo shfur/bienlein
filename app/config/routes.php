@@ -21,11 +21,19 @@ Flight::route('(/@language:[a-z]{2})(/*)', function($language) {
 });
 
 /**
- * Route the root to our welcome controller.
+ * Route the root to our home page controller.
  */
 Flight::route('(/[a-z]{2})/', function() {
-	$welcomeController = new Controller_Welcome();
-	$welcomeController->index();
+	$mtgController = new Controller_Mtg();
+	$mtgController->index();
+});
+
+/**
+ * Route the root to our company page controller.
+ */
+Flight::route('(/[a-z]{2})/company', function() {
+	$mtgController = new Controller_Mtg();
+	$mtgController->company();
 });
 
 /**
