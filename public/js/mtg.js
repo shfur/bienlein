@@ -1,5 +1,7 @@
 // docked state
 var docked = false;
+// offset for scrollnav
+var offset = 0;
 
 /* Ready, Set, Go. */
 $(document).ready(function() {
@@ -10,12 +12,11 @@ $(document).ready(function() {
     // Cache selectors
     var lastId;
     var topMenu = $('.navscroll');
-    var topMenuHeight = topMenu.outerHeight();
+    var topMenuHeight = topMenu.outerHeight() + offset;
     // All list items
     var menuItems = topMenu.find("a");
     // Anchors corresponding to menu items
     var scrollItems = menuItems.map(function() {
-        //alert('ID '+$($(this).attr("data-value")).attr('id'));
         var item = $($(this).attr("href"));
         if (item.length) { return item; }
     });

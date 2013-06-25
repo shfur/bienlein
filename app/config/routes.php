@@ -21,22 +21,6 @@ Flight::route('(/@language:[a-z]{2})(/*)', function($language) {
 });
 
 /**
- * Route the root to our home page controller.
- */
-Flight::route('(/[a-z]{2})/', function() {
-	$mtgController = new Controller_Mtg();
-	$mtgController->index();
-});
-
-/**
- * Route the root to our company page controller.
- */
-Flight::route('(/[a-z]{2})/company', function() {
-	$mtgController = new Controller_Mtg();
-	$mtgController->company();
-});
-
-/**
  * Routes to the login/logout controllers.
  */
 Flight::route('(/[a-z]{2})/login', function() {
@@ -155,6 +139,15 @@ Flight::route('(/[a-z]{2})/forbidden', function() {
         'language' => Flight::get('language'),
         'title' => I18n::__('forbidden_head_title')
     ));
+});
+
+/**
+ * Route the root to our home page.
+ */
+Flight::route('(/[a-z]{2})/(@location)', function($location) {
+	if ($location === null) $location = 'home';
+	$mtgController = new Controller_Mtg($location);
+	//$mtgController->index();
 });
 
 /**

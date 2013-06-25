@@ -444,6 +444,19 @@ header.master hgroup h2 {
     padding-right: 23px;
 }
 
+.content p,
+.content ul,
+.content ol {
+	margin-bottom: 1em;
+}
+
+.content article:first-child {
+	margin-bottom: 0;
+}
+.content article:first-child header {
+	display: none;
+}
+
 .sidebar {
     width: 167px;
     float: left;
@@ -461,18 +474,26 @@ header.master hgroup h2 {
 }
 
 /* on other pages content takes full advantage */
-#datenschutz .content,
-#agb .content,
+
+#privacy .content,
+#legal .content,
 #sitemap .content,
-#impressum .content {
+#imprint .content {
     width: 960px;
     margin: 0 auto;
     padding: 0;
     float: none;
 }
 
+#privacy .sidebar,
+#legal .sidebar,
+#sitemap .sidebar,
+#imprint .sidebar {
+	display: none;
+}
+
 /* content designs */
-.content h1 {
+.content header h1 {
     background: url(/img/mtg/mtg-bg-headline.png) no-repeat;
     font-size: 18px;
     line-height: 46px;
@@ -482,11 +503,11 @@ header.master hgroup h2 {
     letter-spacing: 0px;
 }
 
-.content section {
+.content article {
     margin-bottom: 2em;
 }
 
-.content section.category figcaption {
+.content article.category figcaption {
     display: none;
 }
 
@@ -575,6 +596,10 @@ ul.secondary li {
     float: left;
 }
 
+ul.main li ul {
+	display: none;
+}
+
 ul.main a,
 ul.secondary a {
     display: inline-block;
@@ -596,7 +621,8 @@ ul.main li.active a {
 }
 
 /* fancy sortiment menu entry */
-ul.main a.sortiment {
+ul.main li.domain-20 a {
+	display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0;
     position: relative;
     left: 0;
     top: -5px;
