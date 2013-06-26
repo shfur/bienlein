@@ -5,6 +5,13 @@ var offset = 0;
 
 /* Ready, Set, Go. */
 $(document).ready(function() {
+	
+	/**
+	 * Isotope on .tiles
+	 */
+	$(".tiles").isotope({
+		itemSelector: ".tile"
+	});
     
     /**
 	 * @see http://stackoverflow.com/questions/9979827/change-active-menu-item-on-page-scroll and

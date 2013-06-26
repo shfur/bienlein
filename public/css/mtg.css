@@ -444,19 +444,6 @@ header.master hgroup h2 {
     padding-right: 23px;
 }
 
-.content p,
-.content ul,
-.content ol {
-	margin-bottom: 1em;
-}
-
-.content article:first-child {
-	margin-bottom: 0;
-}
-.content article:first-child header {
-	display: none;
-}
-
 .sidebar {
     width: 167px;
     float: left;
@@ -509,6 +496,34 @@ header.master hgroup h2 {
 
 .content article.category figcaption {
     display: none;
+}
+
+.content p,
+.content ul,
+.content ol {
+	margin-bottom: 1em;
+}
+
+.content article:first-child {
+	margin-bottom: 0;
+}
+.content article:first-child header {
+	display: none;
+}
+
+.content article header {
+	margin-bottom: 1em;
+}
+
+.content article li {
+	padding-left: 1em;
+	text-indent: -0.7em;
+	line-height: 2em;
+}
+
+.content article li:before {
+	content: "• ";
+	color: rgb(210, 35, 42);
 }
 
 .content table {

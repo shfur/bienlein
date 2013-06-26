@@ -318,15 +318,19 @@ SQL;
 		));
 		$this->content .= '<article id="'.$domain->name.'">'."\n";
 		$this->content .= '<header><h1>'.$domain->i18n($lang)->name.'</h1></header>'."\n";
+		$this->content .= '<div class="tiles">'."\n";
 		foreach ($pages as $id => $page) {
 			foreach ($page->getSlicesByRegion($region_id, false) as $slice_id => $slice) {
 				ob_start();
+				echo '<div class="tile tile-'.$slice->module.'">'."\n";
 				$slice->render();
+				echo '</div>'."\n";
 				$content = ob_get_contents();
 				ob_end_clean();
 				$this->content .= $content;
 			}
 		}
+		$this->content .= '</div>'."\n";
 		$this->content .= '</article>'."\n";
 		//if domain has subs, render them too
 		$subdomains = R::find('domain', 'domain_id = ? ORDER BY sequence', array($domain->getId()));

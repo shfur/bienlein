@@ -52,5 +52,6 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="/js/mtg.js"></script>
 		<script src="/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+		<script src="/js/jquery.isotope.min.js"></script>
 	</body>
 </html>
