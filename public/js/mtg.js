@@ -5,13 +5,6 @@ var offset = 0;
 
 /* Ready, Set, Go. */
 $(document).ready(function() {
-	
-	/**
-	 * Isotope on .tiles
-	 */
-	$(".tiles").isotope({
-		itemSelector: ".tile"
-	});
     
     /**
 	 * @see http://stackoverflow.com/questions/9979827/change-active-menu-item-on-page-scroll and
@@ -27,7 +20,20 @@ $(document).ready(function() {
         var item = $($(this).attr("href"));
         if (item.length) { return item; }
     });
-    
+
+	/**
+	 * @see http://www.basic-slider.com
+	 */
+	$('#people-slider').bjqs({
+	        'height' : 300,
+	        'width' : 1000,
+			'showcontrols': false,
+			'showmarkers': false,
+			'automatic': true,
+			'animtype': 'slide',
+			'animspeed': 4000
+	    });
+
     // Bind to scroll
     $(window).scroll(function(){
        // Get container scroll position
@@ -62,7 +68,28 @@ $(document).ready(function() {
     $('.navscroll a').click(function (e) {
         $(window).scrollTo($(this).attr('href'), 800, { offset: {top: 0, left: 0} });
         //window.location = $(this).attr('href');
-        //e.preventDefault();
+        e.preventDefault();
     });
+
+	/**
+	 * @see http://jsfiddle.net/aPLLF/2/
+	 */
+	$("#q").keyup(function(){
+		// When value of the input is not blank
+        var term=$(this).val()
+		if( term != "")
+		{
+			// Show only matching TR, hide rest of them
+			$("article.category tbody>tr").hide();
+            $("article.category td").filter(function(){
+                   return $(this).text().toLowerCase().indexOf(term ) >-1
+            }).parent("tr").show();
+		}
+		else
+		{
+			// When there is no input or clean again, show everything back
+			$("article.category tbody>tr").show();
+		}
+	});
     
 });

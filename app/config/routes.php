@@ -142,12 +142,28 @@ Flight::route('(/[a-z]{2})/forbidden', function() {
 });
 
 /**
- * Route the root to our home page.
+ * Route to our MTG pages.
  */
 Flight::route('(/[a-z]{2})/(@location)', function($location) {
 	if ($location === null) $location = 'home';
 	$mtgController = new Controller_Mtg($location);
-	//$mtgController->index();
+	$mtgController->run();
+});
+
+/**
+ * Route to our MTG login.
+ */
+Flight::route('POST (/[a-z]{2})/mtg/login', function() {
+	$mtgController = new Controller_Mtg('login');
+	$mtgController->run();
+});
+
+/**
+ * Route to our MTG logout.
+ */
+Flight::route('(/[a-z]{2})/mtg/logout', function() {
+	$mtgController = new Controller_Mtg('logout');
+	$mtgController->run();
 });
 
 /**

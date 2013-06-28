@@ -145,26 +145,114 @@ class Controller_Mtg extends Controller
 	public $oxid_cat_template = '<header><figure><img src="%2$s" width="100%%" height="320" alt="%1$s" /><figcaption>%1$s</figcaption></figure></header>';
 	
 	/**
+	 * Holds the thead template for a non-logged user.
+	 *
+	 * @var string
+	 */
+	public $oxid_thead_template_guest = '<thead><tr><th>%1$s</th><th>%2$s</th><th>%3$s</th><th>%4$s</th><th>%5$s</th><th>%6$s</th><th>%7$s</th></tr></thead>';
+
+	/**
+	 * Holds the thead template for a logged user.
+	 *
+	 * @var string
+	 */
+	public $oxid_thead_template_cust = '<thead><tr><th>%1$s</th><th>%2$s</th><th>%3$s</th><th>%4$s</th><th>%5$s</th><th>%6$s</th><th>%7$s</th><th>%8$s</th></tr></thead>';
+
+	/**
 	 * Holds the template for an oxid article.
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%3$s" alt="%8$s" /></td><td>%4$s</td><td><img src="%5$s" alt="%2$s" /></td><td>%6$s</td><td>%7$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%3$s" alt="%8$s" /></td><td>%4$s</td><td><img src="%5$s" alt="%2$s" /></td><td>%6$s</td><td>%7$s</td></tr>';
+	
+	/**
+	 * Holds the template for an oxid article when user is logged in.
+	 *
+	 * This has one table data cell more.
+	 *
+	 * @var string
+	 */
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%3$s" alt="%8$s" /></td><td>%4$s</td><td><img src="%5$s" alt="%2$s" /></td><td>%6$s</td><td>%7$s</td><td>LS</td></tr>';
+	
+	/**
+	 * Holds the last entered searchterm.
+	 *
+	 * @var string
+	 */
+	public $q;
+	
+	/**
+	 * Holds the instance of the logged oxid user or false.
+	 *
+	 * @var mixed
+	 */
+	public $oxuser;
 
 	/**
 	 * Constuctor.
+	 *
+	 * Most pages are cms like, but portfolio, login and logout are special.
 	 *
 	 * @param string $location
 	 */
 	public function __construct($location)
 	{
+		session_start();
+		if ( ! isset($_SESSION['oxuser'])) {
+			$_SESSION['oxuser'] = false;
+		}
+		$this->oxuser = $_SESSION['oxuser'];
 		$this->root = R::load('domain', $this->root_id);
 		$this->extra = R::load('domain', $this->extra_id);
 		$this->location = $location;
 		$this->findDomainAndMainPage($this->location);
+	}
+	
+	/**
+	 * Dispatcher.
+	 */
+	public function run()
+	{
+		if ($this->location == 'login') return $this->login();
+		if ($this->location == 'logout') return $this->logout();
 		if ($this->location == 'portfolio') return $this->portfolio();
 		$this->render();
 	}
+
+
+	/**
+	 * Log in to oxid user account.
+	 */
+	public function login()
+	{
+		$mtg_login_failed = I18n::__('mtg_login_failed');
+		R::selectDatabase('oxid');
+		$sql = 'SELECT oxid, oxfname, oxlname FROM oxuser WHERE oxusername = ? AND oxactive = 1 AND oxpassword = MD5(CONCAT(?, UNHEX(oxpasssalt)))';
+		$users = R::getAll($sql, array(
+			Flight::request()->data->uname,
+			Flight::request()->data->pw
+		));
+		R::selectDatabase('default');//before doing session stuff we have to return to db
+		if ( ! empty($users) && count($users) == 1) {
+			$_SESSION['oxuser'] = array(
+				'id' => $users[0]['oxid'],
+				'name' => $users[0]['oxfname'].' '.$users[0]['oxlname']
+			);
+		} else {
+			$_SESSION['msg'] = $mtg_login_failed;
+		}
+		$this->redirect(Flight::request()->data->goto);
+	}
+	
+	/**
+	 * Log out.
+	 */
+	public function logout()
+	{
+		$_SESSION['oxuser'] = false;
+		$this->redirect('/home');
+	}
+
 	
 	/**
 	 * Renders the portfolio page.
@@ -172,6 +260,7 @@ class Controller_Mtg extends Controller
 	public function portfolio()
 	{
 		$this->sidebar_template = 'portfolio';
+		$this->q = Flight::request()->query->q;
 		$this->getOxidContent(Flight::get('language'));
 		$this->render();
 	}
@@ -187,6 +276,15 @@ class Controller_Mtg extends Controller
 	protected function getOxidContent($lang)
 	{
 		$i18n_empty = I18n::__('mtg_cat_empty');
+		
+		if ($this->oxuser) {
+			$thead_template = sprintf($this->oxid_thead_template_cust, I18n::__('mtg_th_artno'), I18n::__('mtg_th_product'), I18n::__('mtg_th_manufacturer'), I18n::__('mtg_th_desc'), I18n::__('mtg_th_thumb'), I18n::__('mtg_th_size'), I18n::__('mtg_th_package'), I18n::__('mtg_th_ls'));
+			$art_template = $this->oxid_art_template_cust;
+		} else {
+			$thead_template = sprintf($this->oxid_thead_template_guest, I18n::__('mtg_th_artno'), I18n::__('mtg_th_product'), I18n::__('mtg_th_manufacturer'), I18n::__('mtg_th_desc'), I18n::__('mtg_th_thumb'), I18n::__('mtg_th_size'), I18n::__('mtg_th_package'));
+			$art_template = $this->oxid_art_template_guest;
+		}
+		
 		R::selectDatabase('oxid');
 		//do the twist
 		$tablename = $this->oxid_views['category'].'_'.$lang;
@@ -204,22 +302,12 @@ class Controller_Mtg extends Controller
 			
 				$this->content .= '<table>'."\n";
 			
-				$this->content .= '<thead>'."\n";
-				$this->content .= '<tr>'."\n";
-				$this->content .= '<th>Art.-Nr.</th>'."\n";
-				$this->content .= '<th>Produkt</th>'."\n";
-				$this->content .= '<th>Marke</th>'."\n";
-				$this->content .= '<th>Einsatz</th>'."\n";
-				$this->content .= '<th>Produktbild</th>'."\n";
-				$this->content .= '<th>Größe</th>'."\n";
-				$this->content .= '<th>Gebinde</th>'."\n";
-				$this->content .= '</tr>'."\n";
-				$this->content .= '</thead>'."\n";
+				$this->content .= $thead_template;
 			
 				$this->content .= '<tbody>'."\n";
 				foreach ($articles as $m => $article) {
 					$attributes = $this->getAttributes($article['OXID'], $lang);
-					$this->content .= sprintf($this->oxid_art_template, $article['OXARTNUM'], $article['OXTITLE'], Flight::get('oxid_path_manu').$article['manu_icon'], $article['OXSHORTDESC'], Flight::get('oxid_path_art').$article['OXPIC1'], $attributes['Größe'], $attributes['Gebinde'], $article['manu_title']);
+					$this->content .= sprintf($art_template, $article['OXARTNUM'], $article['OXTITLE'], Flight::get('oxid_path_manu').$article['manu_icon'], $article['OXSHORTDESC'], Flight::get('oxid_path_art').$article['OXPIC1'], $attributes['Größe'], $attributes['Gebinde'], $article['manu_title']);
 				}
 			
 				$this->content .= '</tbody>'."\n";
@@ -293,6 +381,7 @@ SQL;
 	{
 		$this->location = $location;
 		$this->domain = R::findOne('domain', 'url = ?', array($location));
+		if ( ! $this->domain) return;
 		//find main page by domain
 		$this->page = R::findOne('page', ' domain_id = ? AND language = ?', array(
 			$this->domain->getId(),
@@ -347,11 +436,13 @@ SQL;
 		//render
 		Flight::render('mtg/header', array(
 			'root' => $this->root,
-			'extra' => $this->extra
+			'extra' => $this->extra,
+			'oxuser' => $this->oxuser
 		), 'header');
 		Flight::render('mtg/'.$this->sidebar_template, array(
 			'domain' => $this->domain,
-			'categories' => $this->categories
+			'categories' => $this->categories,
+			'q' => $this->q
 		), 'sidebar');
         Flight::render('mtg/html5', array(
             'title' => $this->page->name,

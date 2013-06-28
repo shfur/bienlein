@@ -36,6 +36,37 @@
 			
 			<?php echo isset($header) ? $header : '' ?>
 			
+			<?php if ($page_id != 'home'): ?>
+			<div id="people-slider-container">
+			<div id="people-slider">
+				<ul class="bjqs">
+					<li>
+						<img src="/img/placeholder.png" alt="" />
+					</li>
+					<li>
+						<img src="/img/placeholder.png" alt="" />
+					</li>
+					<li>
+						<img src="/img/placeholder.png" alt="" />
+					</li>
+					<li>
+						<img src="/img/placeholder.png" alt="" />
+					</li>
+					<li>
+						<img src="/img/placeholder.png" alt="" />
+					</li>
+				</ul>
+			</div>
+			</div>
+			<?php endif ?>
+			
+			<?php if (isset($_SESSION['msg'])): ?>
+			<div class="alert alert-error">
+				<?php echo $_SESSION['msg'] ?>
+				<?php unset($_SESSION['msg']) ?>
+			</div>
+			<?php endif ?>
+			
 			<div class="main clearfix">
 				
 				<?php echo isset($sidebar) ? $sidebar : '' ?>
@@ -52,6 +83,6 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="/js/mtg.js"></script>
 		<script src="/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-		<script src="/js/jquery.isotope.min.js"></script>
+		<script src="/js/bjqs-1.3.min.js"></script>
 	</body>
 </html>

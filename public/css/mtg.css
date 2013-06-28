@@ -387,7 +387,7 @@ body {
     width: 100%;
     height: 100%;
     margin: 0;
-    background: rgb(214, 234, 203);
+    background: rgb(182, 219, 165) url(/img/mtg/mtg-bg-back.jpg) repeat-y;
     position: relative;
 }
 
@@ -418,7 +418,7 @@ header.master {
 }
 
 /* the logo is smaller and elsewhere on every page */
-header.master hgroup h1 a {
+header.master h1 a {
     display: block;
     width: 1000px;
     height: 300px;
@@ -426,14 +426,22 @@ header.master hgroup h1 a {
 }
 
 /* the logo is big on the home screen */
-#home header.master hgroup h1 a {
+#home header.master h1 a {
     background: url(/img/mtg/mtg-header-home.jpg) no-repeat;
     width: 1000px;
     height: 300px;
 }
 
+div#people-slider-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1000px;
+	height: 300px;
+}
+
 /* is visuallyhidden in layout */
-header.master hgroup h2 {
+header.master h2 {
 }
 
 /* layout */
@@ -480,7 +488,7 @@ header.master hgroup h2 {
 }
 
 /* content designs */
-.content header h1 {
+.content article header h1 {
     background: url(/img/mtg/mtg-bg-headline.png) no-repeat;
     font-size: 18px;
     line-height: 46px;
@@ -492,6 +500,27 @@ header.master hgroup h2 {
 
 .content article {
     margin-bottom: 2em;
+}
+
+.content article h1,
+.content article h2,
+.content article h3,
+.content article h4,
+.content article h5,
+.content article h6 {
+	color: rgb(210, 35, 42);
+}
+
+.content .tiles {
+	position: relative;
+}
+
+.content .tile.tile-textile {
+	z-index: 1;
+}
+
+.content .tile.tile-image {
+	margin-bottom: 1em;
 }
 
 .content article.category figcaption {
@@ -566,6 +595,83 @@ header.master hgroup h2 {
     font-size: 13px;
 }
 
+/* q */
+input#q {
+	margin: 0.5em 0;
+}
+
+/* login */
+#account {
+	margin: 0;
+	padding: 0;
+	padding-top: 4px;
+	position: absolute;
+	top: 339px;
+	right: 0px;
+	width: 415px;
+	height: 35px;
+	border-left: 1px solid white;
+}
+
+#account h3 {
+	display: inline-block;
+	float: left;
+	font-size: 18px;
+	line-height: 29px;
+	text-transform: uppercase;
+	margin-right: 0.5em;
+	color: white;
+	padding-left: 0.5em;
+	font-weight: normal;
+}
+
+#account h3 a {
+	text-decoration: none;
+	color: white;
+}
+
+#account p#oxidaccount {
+	color: white;
+	font-size: 16px;
+	line-height: 29px;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+}
+
+#account form {
+	margin: 0;
+	padding: 0;
+}
+
+#account div.row {
+	float: left;
+}
+
+#account form legend,
+#account form label {
+	display: none;
+}
+
+#account form input#mtg-uname,
+#account form input#mtg-pw {
+	width: 120px;
+	float: left;
+	margin-right: 0.5em;
+}
+
+#account form input#submit {
+	background-image: url(/img/mtg/mtg-icon-login.jpg);
+	background-position: center center;
+	width: 41px;
+	line-height: 24px;
+}
+
+#account h3 a {
+	padding-right: 24px;
+	background: url(/img/mtg/mtg-icon-login.jpg) right center no-repeat;
+}
+
 /* sidebar news stuff */
 .sidebar.news h2,
 .sidebar.news h3 {
@@ -629,10 +735,30 @@ ul.main a {
     padding: 0 20px;
 }
 
-ul.main a:hover,
-ul.main li.active a {
+ul.main a:hover {
     color: rgb(205, 7, 30);
-    background-color: rgb(183, 219, 164);
+    /*background-color: rgb(183, 219, 164);*/
+}
+
+/* home nav hover and active */
+body#home ul.main li.domain-17 a,
+ul.main li.domain-17 a:hover {
+	background: url(/img/mtg/mtg-nav-home.png) no-repeat;
+    color: rgb(205, 7, 30);
+}
+
+/* company nav hover and active */
+body#company ul.main li.domain-18 a,
+ul.main li.domain-18 a:hover {
+	background: url(/img/mtg/mtg-nav-company.png) no-repeat;
+    color: rgb(205, 7, 30);
+}
+
+/* contact nav hover and active */
+body#contact ul.main li.domain-19 a,
+ul.main li.domain-19 a:hover {
+	background: url(/img/mtg/mtg-nav-contact.png) no-repeat;
+    color: rgb(205, 7, 30);
 }
 
 /* fancy sortiment menu entry */
@@ -643,8 +769,21 @@ ul.main li.domain-20 a {
     top: -5px;
     width: 125px;
     height: 50px;
-    background: url(/img/mtg/mtg-button-sortiment-d.png) no-repeat;
+    background: url(/img/mtg/mtg-button-sortiment-d.png);
     padding: 0;
+}
+
+body#portfolio ul.main li.domain-20 a,
+ul.main li.domain-20 a:hover {
+	background: url(/img/mtg/mtg-button-sortiment-a.png);
+	color: rgb(205, 7, 30);
+}
+
+/* contact nav hover and active */
+body#people ul.main li.domain-25 a,
+ul.main li.domain-25 a:hover {
+	background: url(/img/mtg/mtg-nav-team.png) no-repeat;
+    color: rgb(205, 7, 30);
 }
 
 /* secondary menu */
@@ -707,6 +846,20 @@ ul.main li a {
     /*font-size: 15px;*/
     font-weight: 500;
 }
+
+/* Basic jQuery Slider essential styles */
+
+ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
+li.bjqs-slide{position:absolute; display:none;}
+ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
+ul.bjqs-controls.v-centered li a{position:absolute;}
+ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
+ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
+ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
+ol.bjqs-markers.h-centered{text-align: center;}
+ol.bjqs-markers li{display:inline;}
+ol.bjqs-markers li a{display:inline-block;}
+p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
 
 
 /* using local fonts? make sure to read up on Paul Irish's 
