@@ -49,7 +49,7 @@
 		<h3>
 			<a href="/mtg/logout"><?php echo I18n::__('mtg_logout_h3') ?></a>
 		</h3>
-		<p id="oxidaccount"><?php echo I18n::__('mth_account_welcome', $oxuser['name']) ?></p>
+		<p id="oxidaccount"><?php echo I18n::__('mtg_account_welcome', $oxuser['name']) ?></p>
 	<?php endif ?>
 	</div>
 </header>
