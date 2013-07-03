@@ -40,21 +40,16 @@
 			<div id="people-slider-container">
 			<div id="people-slider">
 				<ul class="bjqs">
+					<?php for ($i=1; $i<12; $i++): ?>
 					<li>
-						<img src="/img/placeholder.png" alt="" />
+						<img
+							src="/img/mtg/mtg-header-slider-<?php echo $i ?>.jpg"
+							alt=""
+							width="1000"
+							height="350" />
 					</li>
-					<li>
-						<img src="/img/placeholder.png" alt="" />
-					</li>
-					<li>
-						<img src="/img/placeholder.png" alt="" />
-					</li>
-					<li>
-						<img src="/img/placeholder.png" alt="" />
-					</li>
-					<li>
-						<img src="/img/placeholder.png" alt="" />
-					</li>
+					<?php endfor;
+					?>
 				</ul>
 			</div>
 			</div>
