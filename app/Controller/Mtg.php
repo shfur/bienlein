@@ -142,7 +142,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_cat_template = '<header><figure><img src="%2$s" width="100%%" height="320" alt="%1$s" /><figcaption>%1$s</figcaption></figure></header>';
+	public $oxid_cat_template = '<header><h1>%1$s</h1><figure><img src="%2$s" width="100%%" height="320" alt="%1$s" /><figcaption>%1$s</figcaption></figure></header>';
 	
 	/**
 	 * Holds the thead template for a non-logged user.
