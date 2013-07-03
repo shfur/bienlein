@@ -25,7 +25,7 @@ $(document).ready(function() {
 	 * @see http://www.basic-slider.com
 	 */
 	$('#people-slider').bjqs({
-	        'height' : 300,
+	        'height' : 350,
 	        'width' : 1000,
 			'showcontrols': false,
 			'showmarkers': false,
