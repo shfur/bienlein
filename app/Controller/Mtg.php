@@ -403,7 +403,7 @@ SQL;
 		//all pages
 		$pages = R::find('page', ' domain_id = ? AND language = ?', array(
 			$domain->getId(),
-			Flight::get('language')
+			$lang
 		));
 		$this->content .= '<article id="'.$domain->name.'">'."\n";
 		$this->content .= '<header><h1>'.$domain->i18n($lang)->name.'</h1></header>'."\n";
