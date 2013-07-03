@@ -30,7 +30,7 @@ class Controller_Install extends Controller
      */
     public function index()
     {
-        if ($user = R::findOne('user', ' isadmin = ?', array(true))) $this->redirect('/admin');
+        if ($setting = R::findOne('setting', ' installed = ?', array(true))) $this->redirect('/admin');
         $user = R::dispense('user');
         if (Flight::request()->method == 'POST' && 
                 password_verify(Flight::request()->data->pass, CINNEBAR_INSTALL_PASS)) {
@@ -82,13 +82,29 @@ class Controller_Install extends Controller
      */
     protected function initialFillings()
     {
+        //setting, will be stored at the end of this
+        $setting = R::dispense('setting');
+        //...
         //action
-        $actions = R::dispense('action', 4);
-        $actions[0]->name = 'add';
-        $actions[1]->name = 'edit';
-        $actions[2]->name = 'index';
-        $actions[3]->name = 'expunge';
-        R::storeAll($actions);
+        list($action_index, $action_add, $action_edit, $action_read, $action_expunge) = R::dispense('action', 5);
+        $action_index->name = 'index';//list/view
+        $action_add->name = 'add';
+        $action_edit->name = 'edit';//update
+        $action_read->name = 'read';//view
+        $action_expunge->name = 'expunge';//delete
+        R::storeAll(array(
+            $action_index,
+            $action_add,
+            $action_edit,
+            $action_read,
+            $action_expunge
+        ));
+        //role
+        list($role_admin, $role_user) = R::dispense('role', 2);
+        $role_admin->name = 'Admin';
+        $role_user->name = 'User';
+        R::store($role_admin);
+        R::store($role_user);
         //country
         $countries = R::dispense('country', 2);
         $countries[0]->iso = 'de';
@@ -99,11 +115,11 @@ class Controller_Install extends Controller
         $countries[1]->enabled = false;
         R::storeAll($countries);
         //domain
-        $domains = R::dispense('domain', 15);
+        $domains = R::dispense('domain', 17);
 
         $domains[0]->name = 'system';
         $domains[0]->url = 'system';
-        $domains[0]->blessed = true;
+        //$domains[0]->blessed = true;
         $domains[0]->sequence = 0;
         $sys_i18n = R::dispense('domaini18n', 3);
         $sys_i18n[0]->language = 'de';
@@ -112,6 +128,20 @@ class Controller_Install extends Controller
         $sys_i18n[1]->name = 'System';
         $sys_i18n[2]->language = 'us';
         $sys_i18n[2]->name = 'System';
+        
+        $permissions = R::dispense('permission', 5);
+        $permissions[0]->method = $action_index->name;
+        $permissions[0]->sharedRole = array($role_admin, $role_user);
+        $permissions[1]->method = $action_add->name;
+        $permissions[1]->sharedRole = array($role_admin);
+        $permissions[2]->method = $action_read->name;
+        $permissions[2]->sharedRole = array($role_admin, $role_user);
+        $permissions[3]->method = $action_edit->name;
+        $permissions[3]->sharedRole = array($role_admin);
+        $permissions[4]->method = $action_expunge->name;
+        
+        $domains[0]->ownPermission = $permissions;
+        
         $domains[0]->ownDomaini18n = array(
             $sys_i18n[0], $sys_i18n[1], $sys_i18n[2]
         );
@@ -133,7 +163,7 @@ class Controller_Install extends Controller
             
                 $domains[2]->name = 'user';
                 $domains[2]->url = 'admin/user';
-                $domains[2]->sequence = 10;
+                $domains[2]->sequence = 10100;
                 $user_i18n = R::dispense('domaini18n', 3);
                 $user_i18n[0]->language = 'de';
                 $user_i18n[0]->name = 'Benutzerkonten';
@@ -147,7 +177,7 @@ class Controller_Install extends Controller
                 
                 $domains[3]->name = 'language';
                 $domains[3]->url = 'admin/language';
-                $domains[3]->sequence = 20;
+                $domains[3]->sequence = 10200;
                 $lang_i18n = R::dispense('domaini18n', 3);
                 $lang_i18n[0]->language = 'de';
                 $lang_i18n[0]->name = 'Sprachen';
@@ -159,9 +189,23 @@ class Controller_Install extends Controller
                     $lang_i18n[0], $lang_i18n[1], $lang_i18n[2]
                 );
                 
+                $domains[15]->name = 'currency';
+                $domains[15]->url = 'admin/currency';
+                $domains[15]->sequence = 10300;
+                $curr_i18n = R::dispense('domaini18n', 3);
+                $curr_i18n[0]->language = 'de';
+                $curr_i18n[0]->name = 'Währungen';
+                $curr_i18n[1]->language = 'en';
+                $curr_i18n[1]->name = 'Currencies';
+                $curr_i18n[2]->language = 'us';
+                $curr_i18n[2]->name = 'Currencies';
+                $domains[15]->ownDomaini18n = array(
+                    $curr_i18n[0], $curr_i18n[1], $curr_i18n[2]
+                );
+                
                 $domains[4]->name = 'country';
                 $domains[4]->url = 'admin/country';
-                $domains[4]->sequence = 30;
+                $domains[4]->sequence = 10400;
                 $country_i18n = R::dispense('domaini18n', 3);
                 $country_i18n[0]->language = 'de';
                 $country_i18n[0]->name = 'Länder';
@@ -175,7 +219,7 @@ class Controller_Install extends Controller
                 
                 $domains[5]->name = 'domain';
                 $domains[5]->url = 'admin/domain';
-                $domains[5]->sequence = 40;
+                $domains[5]->sequence = 10500;
                 $domain_i18n = R::dispense('domaini18n', 3);
                 $domain_i18n[0]->language = 'de';
                 $domain_i18n[0]->name = 'Verzeichnisse';
@@ -189,7 +233,7 @@ class Controller_Install extends Controller
                 
                 $domains[6]->name = 'action';
                 $domains[6]->url = 'admin/action';
-                $domains[6]->sequence = 50;
+                $domains[6]->sequence = 10600;
                 $action_i18n = R::dispense('domaini18n', 3);
                 $action_i18n[0]->language = 'de';
                 $action_i18n[0]->name = 'Kommandos';
@@ -203,7 +247,7 @@ class Controller_Install extends Controller
                 
                 $domains[7]->name = 'role';
                 $domains[7]->url = 'admin/role';
-                $domains[7]->sequence = 60;
+                $domains[7]->sequence = 10700;
                 $role_i18n = R::dispense('domaini18n', 3);
                 $role_i18n[0]->language = 'de';
                 $role_i18n[0]->name = 'Rollen';
@@ -217,7 +261,7 @@ class Controller_Install extends Controller
                 
                 $domains[8]->name = 'team';
                 $domains[8]->url = 'admin/team';
-                $domains[8]->sequence = 70;
+                $domains[8]->sequence = 10800;
                 $team_i18n = R::dispense('domaini18n', 3);
                 $team_i18n[0]->language = 'de';
                 $team_i18n[0]->name = 'Teams';
@@ -231,7 +275,7 @@ class Controller_Install extends Controller
                 
                 $domains[9]->name = 'token';
                 $domains[9]->url = 'admin/token';
-                $domains[9]->sequence = 80;
+                $domains[9]->sequence = 10900;
                 $token_i18n = R::dispense('domaini18n', 3);
                 $token_i18n[0]->language = 'de';
                 $token_i18n[0]->name = 'Übersetzungen';
@@ -245,13 +289,13 @@ class Controller_Install extends Controller
                 
             $domains[10]->name = 'cms';
             $domains[10]->url = 'cms';
-            $domains[10]->sequence = 0;
+            $domains[10]->sequence = 9000;
             $cms_i18n = R::dispense('domaini18n', 3);
             $cms_i18n[0]->language = 'de';
             $cms_i18n[0]->name = 'CMS';
             $cms_i18n[1]->language = 'en';
             $cms_i18n[1]->name = 'CMS';
-            $domain_i18n[2]->language = 'us';
+            $cms_i18n[2]->language = 'us';
             $cms_i18n[2]->name = 'CMS';
             $domains[10]->ownDomaini18n = array(
                 $cms_i18n[0], $cms_i18n[1], $cms_i18n[2]
@@ -259,7 +303,7 @@ class Controller_Install extends Controller
             
                 $domains[11]->name = 'media';
                 $domains[11]->url = 'cms/media';
-                $domains[11]->sequence = 10;
+                $domains[11]->sequence = 9100;
                 $media_i18n = R::dispense('domaini18n', 3);
                 $media_i18n[0]->language = 'de';
                 $media_i18n[0]->name = 'Medien';
@@ -273,7 +317,8 @@ class Controller_Install extends Controller
                 
                 $domains[12]->name = 'page';
                 $domains[12]->url = 'cms/page';
-                $domains[12]->sequence = 20;
+                $domains[12]->invisible = true;//page domain is invisible, we use cms
+                $domains[12]->sequence = 9200;
                 $page_i18n = R::dispense('domaini18n', 3);
                 $page_i18n[0]->language = 'de';
                 $page_i18n[0]->name = 'Webseiten';
@@ -285,9 +330,23 @@ class Controller_Install extends Controller
                     $page_i18n[0], $page_i18n[1], $page_i18n[2]
                 );
                 
+                    $domains[16]->name = 'about';
+                    $domains[16]->url = 'about';
+                    $domains[16]->sequence = 9210;
+                    $site_i18n = R::dispense('domaini18n', 3);
+                    $site_i18n[0]->language = 'de';
+                    $site_i18n[0]->name = 'Über';
+                    $site_i18n[1]->language = 'en';
+                    $site_i18n[1]->name = 'About';
+                    $site_i18n[2]->language = 'us';
+                    $site_i18n[2]->name = 'About';
+                    $domains[16]->ownDomaini18n = array(
+                        $site_i18n[0], $site_i18n[1], $site_i18n[2]
+                    );
+                
                 $domains[13]->name = 'module';
                 $domains[13]->url = 'cms/module';
-                $domains[13]->sequence = 30;
+                $domains[13]->sequence = 9300;
                 $module_i18n = R::dispense('domaini18n', 3);
                 $module_i18n[0]->language = 'de';
                 $module_i18n[0]->name = 'Modulen';
@@ -301,7 +360,7 @@ class Controller_Install extends Controller
                 
                 $domains[14]->name = 'template';
                 $domains[14]->url = 'cms/template';
-                $domains[14]->sequence = 40;
+                $domains[14]->sequence = 9400;
                 $template_i18n = R::dispense('domaini18n', 3);
                 $template_i18n[0]->language = 'de';
                 $template_i18n[0]->name = 'Templates';
@@ -322,28 +381,37 @@ class Controller_Install extends Controller
             $domains[6],
             $domains[7],
             $domains[8],
-            $domains[9]
+            $domains[9],
+            $domains[15]
+        );
+        $domains[12]->ownDomain = array(
+            $domains[16]
         );
         $domains[10]->ownDomain = array(
             $domains[11],
             $domains[12],
             $domains[13],
             $domains[14]
-        );  
+        );
         $domains[0]->ownDomain = array(
             $domains[1], $domains[10]
         );
         //store system tree       
         R::store($domains[0]);
+        //make system the blessed folder
+        $setting->blessedfolder = $domains[0]->getId();
+        $setting->sitesfolder = $domains[12]->getId();
 
         //modules
-        $modules = R::dispense('module', 3);
+        $modules = R::dispense('module', 4);
         $modules[0]->name = 'textile';
         $modules[0]->enabled = true;
         $modules[1]->name = 'text';
         $modules[1]->enabled = true;
         $modules[2]->name = 'image';
         $modules[2]->enabled = true;
+        $modules[3]->name = 'html';
+        $modules[3]->enabled = true;
         R::storeAll($modules);
         
         //language
@@ -358,19 +426,366 @@ class Controller_Install extends Controller
         $languages[2]->name = 'US-English';
         $languages[2]->enabled = false;
         R::storeAll($languages);
-        //role
-        $roles = R::dispense('role', 2);
-        $roles[0]->name = 'Admin';
-        $roles[1]->name = 'User';
-        R::storeAll($roles);
+        
+        //currency
+        $currencies = R::dispense('currency', 3);
+        $currencies[0]->iso = 'eur';
+        $currencies[0]->name = 'Euro';
+        $currencies[0]->enabled = true;
+        $currencies[0]->sign = '€';
+        $currencies[0]->fractionalunit = 'Cent';
+        $currencies[0]->numbertobasic = 100;
+        $currencies[0]->exchangerate = (double)1.000;
+        //gbp
+        $currencies[1]->iso = 'gbp';
+        $currencies[1]->name = 'Pound Sterling';
+        $currencies[1]->enabled = true;
+        $currencies[1]->sign = '£';
+        $currencies[1]->fractionalunit = 'Pence';
+        $currencies[1]->numbertobasic = 100;
+        $currencies[1]->exchangerate = (double)0.8490;
+        //usd
+        $currencies[2]->iso = 'usd';
+        $currencies[2]->name = 'US Dollar';
+        $currencies[2]->enabled = true;
+        $currencies[2]->sign = '$';
+        $currencies[2]->fractionalunit = 'Cent';
+        $currencies[2]->numbertobasic = 100;
+        $currencies[2]->exchangerate = (double)1.2861;
+        R::storeAll($currencies);
+        
+        $setting->basecurrency = $currencies[0]->getId();
+
         //team
         $team = R::dispense('team');
         $team->name = 'Development';
         R::store($team);
+        //template
+        $template = R::dispense('template');
+        $template->name = 'Default';
+        $region = R::dispense('region');
+        $region->name = 'Content';
+        $template->ownRegion = array(
+            $region
+        );
+        R::store($template);
         //token
+        I18n::make('cms_url_not_found', array(
+            'de' => 'Die URL %s konnte nicht gefunden werden',
+            'en' => 'URL %s was not found on this server',
+            'us' => 'URL %s was not found on this server'
+        ));
+        I18n::make('cms_url_has_no_pages', array(
+            'de' => 'Die URL %s hat keine Inhalte',
+            'en' => 'URL %s has no content yet',
+            'us' => 'URL %s has no content yet'
+        ));
+        
+        I18n::make('cms_add_page', array(
+            'de' => 'Fügen Sie eine neue Seite hinzu',
+            'en' => 'Add a new page',
+            'us' => 'Add a new page'
+        ));
+        I18n::make('cms_choose_a_node', array(
+            'de' => 'Wählen Sie einen Ordner aus',
+            'en' => 'Select a folder',
+            'us' => 'Select a folder'
+        ));
+        I18n::make('cms_sitemap_nav', array(
+            'de' => 'Verzeichnis',
+            'en' => 'Sitemap',
+            'us' => 'Sitemap'
+        ));
+        I18n::make('module_legend_textile', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('module_legend_text', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('module_legend_image', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('module_legend_html', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('module_submit', array(
+            'de' => 'Aktualisieren',
+            'en' => 'Update',
+            'us' => 'Update'
+        ));
+        I18n::make('module_submit_choose', array(
+            'de' => 'Hinzufügen',
+            'en' => 'Add',
+            'us' => 'Add'
+        ));
+        I18n::make('module_submit_delete', array(
+            'de' => 'Entfernen',
+            'en' => 'Delete',
+            'us' => 'Delete'
+        ));
+        I18n::make('page_submit', array(
+            'de' => 'Aktualisieren',
+            'en' => 'Update',
+            'us' => 'Update'
+        ));
+        I18n::make('page_submit_delete', array(
+            'de' => 'Entfernen',
+            'en' => 'Delete',
+            'us' => 'Delete'
+        ));
+        I18n::make('cms_addpage_w_template', array(
+            'de' => 'Neue Seite mit Template&hellip;',
+            'en' => 'New page with template&hellip;',
+            'us' => 'New page with template&hellip;'
+        ));
+        I18n::make('page_name_untitled', array(
+            'de' => 'Unbenannt',
+            'en' => 'Untitled',
+            'us' => 'Untitled'
+        ));
+        I18n::make('bool_true', array(
+            'de' => 'Ja',
+            'en' => 'Yes',
+            'us' => 'Yes'
+        ));
+        I18n::make('bool_false', array(
+            'de' => 'Nein',
+            'en' => 'No',
+            'us' => 'No'
+        ));
+        I18n::make('scaffold_no_records_add_denied', array(
+            'de' => 'Es sind keine Einträge vorhanden',
+            'en' => 'No items found',
+            'us' => 'No items found'
+        ));
+        I18n::make('domain_rbac_tab', array(
+            'de' => 'Zugriffsrechte',
+            'en' => 'Access',
+            'us' => 'Access'
+        ));
+        I18n::make('domain_legend_rbac', array(
+            'de' => 'Zugriffskontrolle',
+            'en' => 'Accesscontrol',
+            'us' => 'Accesscontrol'
+        ));
+        I18n::make('http_error_403_h1', array(
+            'de' => 'Fehler 403',
+            'en' => 'Error 403',
+            'us' => 'Error 403'
+        ));
+        I18n::make('http_error_403_h2', array(
+            'de' => 'Zugriff nicht erlaubt',
+            'en' => 'Forbidden',
+            'us' => 'Forbidden'
+        ));
+        I18n::make('http_error_403_article', array(
+            'de' => 'Wenden Sie sich an den Systemverwalter um Zugriff auf diese Seite zu erhalten.',
+            'en' => 'Please contact your system administrator.',
+            'us' => 'Please contact your system administrator.'
+        ));
+        I18n::make('http_error_404_h1', array(
+            'de' => 'Fehler 404',
+            'en' => 'Error 404',
+            'us' => 'Error 404'
+        ));
+        I18n::make('http_error_404_h2', array(
+            'de' => 'Seite nicht gefunden',
+            'en' => 'Page not found',
+            'us' => 'Page not found'
+        ));
+        I18n::make('http_error_404_article', array(
+            'de' => 'Die Seite konnte nicht gefunden werden.',
+            'en' => 'The page requested was not found.',
+            'us' => 'The page requested was not found.'
+        ));
+        I18n::make('user_label_screenname', array(
+            'de' => 'Profilname',
+            'en' => 'Screenname',
+            'us' => 'Screenname'
+        ));
+        I18n::make('currency_info_basecurrency', array(
+            'de' => 'entspricht 1 %s',
+            'en' => 'equals 1 %s',
+            'us' => 'equals Base currency %s'
+        ));
+        I18n::make('domain_label_action', array(
+            'de' => 'Kommando',
+            'en' => 'Action',
+            'us' => 'Action'
+        ));
+        I18n::make('token_info_desc', array(
+            'de' => 'Beschreibung des Token mit eventuellen Parametern',
+            'en' => 'Describe the usage and optional parameters',
+            'us' => 'Describe the usage and optional parameters'
+        ));
+        //==================================
+        I18n::make('action_add', array(
+            'de' => 'Hinzufügen',
+            'en' => 'Add',
+            'us' => 'Add'
+        ));
+        I18n::make('action_read', array(
+            'de' => 'Anzeigen',
+            'en' => 'View',
+            'us' => 'View'
+        ));
+        I18n::make('action_edit', array(
+            'de' => 'Ändern',
+            'en' => 'Update',
+            'us' => 'Update'
+        ));
+        I18n::make('action_expunge', array(
+            'de' => 'Entfernen',
+            'en' => 'Delete',
+            'us' => 'Delete'
+        ));
+        I18n::make('action_index', array(
+            'de' => 'Listen',
+            'en' => 'List',
+            'us' => 'List'
+        ));
+        //==================================
+        I18n::make('setting_legend', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('setting_legend_currency', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('setting_legend_folder', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('setting_label_blessedfolder', array(
+            'de' => 'Systemordner',
+            'en' => 'Blessed Folder',
+            'us' => 'Blessed Folder'
+        ));
+        I18n::make('setting_label_sitesfolder', array(
+            'de' => 'Webseiten',
+            'en' => 'Websites',
+            'us' => 'Websites'
+        ));
+        I18n::make('setting_label_fiscalyear', array(
+            'de' => 'Rechnungsjahr',
+            'en' => 'Fiscal Year',
+            'us' => 'Fiscal Year'
+        ));
+        I18n::make('setting_label_basecurrency', array(
+            'de' => 'Basiswährung',
+            'en' => 'Base Currency',
+            'us' => 'Base Currency'
+        ));
+        I18n::make('setting_label_exchangerateservice', array(
+            'de' => 'Service',
+            'en' => 'Service',
+            'us' => 'Service'
+        ));
+        I18n::make('setting_label_loadexchangerates', array(
+            'de' => 'Kurse',
+            'en' => 'Rates',
+            'us' => 'Rates'
+        ));
+        I18n::make('setting_loadexchangerates_no', array(
+            'de' => 'Zuletzt aktualisiert %s',
+            'en' => 'Last updated %s',
+            'us' => 'Last updated %s'
+        ));
+        I18n::make('setting_loadexchangerates_yes', array(
+            'de' => 'Jetzt aktualisieren',
+            'en' => 'Update now',
+            'us' => 'Update now'
+        ));
+        I18n::make('setting_folder_tab', array(
+            'de' => 'Ordner',
+            'en' => 'Folders',
+            'us' => 'Folders'
+        ));
+        I18n::make('admin_submit_setting', array(
+            'de' => 'Aktualisieren',
+            'en' => 'Update',
+            'us' => 'Update'
+        ));
+        I18n::make('setting_currency_tab', array(
+            'de' => 'Währung und Kurse',
+            'en' => 'Currency and Rates',
+            'us' => 'Currency and Rates'
+        ));
+        I18n::make('currency_h1', array(
+            'de' => 'Währungen',
+            'en' => 'Currencies',
+            'us' => 'Currencies'
+        ));
+        I18n::make('currency_legend', array(
+            'de' => '',
+            'en' => '',
+            'us' => ''
+        ));
+        I18n::make('currency_label_iso', array(
+            'de' => 'ISO',
+            'en' => 'ISO',
+            'us' => 'ISO'
+        ));
+        I18n::make('currency_label_enabled', array(
+            'de' => 'Aktiviert',
+            'en' => 'Active',
+            'us' => 'Active'
+        ));
+        I18n::make('currency_label_name', array(
+            'de' => 'Name',
+            'en' => 'Name',
+            'us' => 'Name'
+        ));
+        I18n::make('currency_label_sign', array(
+            'de' => 'Zeichen',
+            'en' => 'Sign',
+            'us' => 'Sign'
+        ));
+        I18n::make('currency_label_fractionalunit', array(
+            'de' => 'Kleinste Einheit',
+            'en' => 'Fractional Unit',
+            'us' => 'Fractional Unit'
+        ));
+        I18n::make('currency_label_numbertobasic', array(
+            'de' => 'Basiszahl',
+            'en' => 'Number to Basic',
+            'us' => 'Number to Basic'
+        ));
+        I18n::make('currency_label_exchangerate', array(
+            'de' => 'Wechselkurs',
+            'en' => 'Exchangerate',
+            'us' => 'Exchangerate'
+        ));
         
         
-        // latest addition 2013-06-24
+        // added 2013-06-24
+        I18n::make('scaffold_no_records_add_one', array(
+            'de' => 'Es sind noch keine Einträge vorhanden. Erstellen Sie den ersten',
+            'en' => 'Go ahead and add the first item',
+            'us' => 'Go ahead and add the first item'
+        ));
+        I18n::make('scaffold_success_index', array(
+            'de' => 'Die Aktion wurde auf %d Einträge angewandt',
+            'en' => 'Action was applied to %d items',
+            'us' => 'Action was applied to %d items'
+        ));
+        I18n::make('scaffold_error_index', array(
+            'de' => 'Die Aktion konnte nicht auf die Auswahl angewandt werden',
+            'en' => 'Action was not applied the selection',
+            'us' => 'Action was not applied the selection'
+        ));
         I18n::make('scaffold_success_add', array(
             'de' => 'Ein Eintrag wurde erfolgreich hinzugefügt',
             'en' => 'Added a new item successfully',
@@ -423,7 +838,7 @@ class Controller_Install extends Controller
             'us' => 'None'
         ));
         I18n::make('domain_label_invisible', array(
-            'de' => 'Nicht sichtbar',
+            'de' => 'Unsichtbar',
             'en' => 'Invisible',
             'us' => 'Invisible'
         ));
@@ -487,11 +902,6 @@ class Controller_Install extends Controller
             'en' => 'URL',
             'us' => 'URL'
         ));
-        I18n::make('domain_placeholder_url', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('page_h1', array(
             'de' => 'Webseiten',
             'en' => 'Webpages',
@@ -516,11 +926,6 @@ class Controller_Install extends Controller
             'de' => 'Verzeichnis',
             'en' => 'Domain',
             'us' => 'Domain'
-        ));
-        I18n::make('page_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
         ));
         I18n::make('page_label_invisible', array(
             'de' => 'Nicht sichtbar',
@@ -567,11 +972,6 @@ class Controller_Install extends Controller
             'en' => 'URL',
             'us' => 'URL'
         ));
-        I18n::make('page_placeholder_url', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('template_h1', array(
             'de' => 'Templates',
             'en' => 'Templates',
@@ -586,11 +986,6 @@ class Controller_Install extends Controller
             'de' => 'Name',
             'en' => 'Name',
             'us' => 'Name'
-        ));
-        I18n::make('template_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
         ));
         I18n::make('template_legend_region', array(
             'de' => '',
@@ -607,11 +1002,6 @@ class Controller_Install extends Controller
             'en' => '%d Region',
             'us' => '%d Region'
         ));
-        I18n::make('region_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('module_h1', array(
             'de' => 'Modulen',
             'en' => 'Modules',
@@ -626,11 +1016,6 @@ class Controller_Install extends Controller
             'de' => 'Name',
             'en' => 'Name',
             'us' => 'Name'
-        ));
-        I18n::make('module_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
         ));
         I18n::make('module_label_enabled', array(
             'de' => 'Aktiviert',
@@ -667,6 +1052,11 @@ class Controller_Install extends Controller
             'en' => 'Text-Only',
             'us' => 'Text-Only'
         ));
+        I18n::make('module_html', array(
+            'de' => 'HTML',
+            'en' => 'HTML',
+            'us' => 'HTML'
+        ));
         I18n::make('media_h1', array(
             'de' => 'Medien',
             'en' => 'Media',
@@ -682,20 +1072,10 @@ class Controller_Install extends Controller
             'en' => 'Name',
             'us' => 'Name'
         ));
-        I18n::make('media_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('media_label_desc', array(
             'de' => 'Beschreibung',
             'en' => 'Description',
             'us' => 'Description'
-        ));
-        I18n::make('media_placeholder_desc', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
         ));
         I18n::make('media_label_file', array(
             'de' => 'Datei',
@@ -783,11 +1163,6 @@ class Controller_Install extends Controller
             'en' => 'Save and edit next',
             'us' => 'Save and edit next'
         ));
-        I18n::make('action_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('action_prev_edit_select', array(
             'de' => 'Sichern und vorigen bearbeiten',
             'en' => 'Save and edit previous',
@@ -854,16 +1229,6 @@ class Controller_Install extends Controller
             'en' => '',
             'us' => ''
         ));
-        I18n::make('country_placeholder_iso', array(
-            'de' => 'it',
-            'en' => 'it',
-            'us' => 'it'
-        ));
-        I18n::make('country_placeholder_name', array(
-            'de' => 'Italien',
-            'en' => 'Italy',
-            'us' => 'Italy'
-        ));
         I18n::make('domain_action', array(
             'de' => 'Aktion',
             'en' => 'Action',
@@ -926,11 +1291,6 @@ class Controller_Install extends Controller
             'us' => ''
         ));
         //50
-        I18n::make('domain_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
         I18n::make('domain_role', array(
             'de' => 'Benutzerrolle',
             'en' => 'Userrole',
@@ -1027,17 +1387,6 @@ class Controller_Install extends Controller
             'en' => '',
             'us' => ''
         ));
-        I18n::make('language_placeholder_iso', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
-        I18n::make('language_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
-        //70
         I18n::make('login_h1', array(
             'de' => 'Anmeldung',
             'en' => 'Login',
@@ -1053,7 +1402,7 @@ class Controller_Install extends Controller
             'en' => '',
             'us' => ''
         ));
-        I18n::make('login_password_label', array(
+        I18n::make('login_label_password', array(
             'de' => 'Kennwort',
             'en' => 'Password',
             'us' => 'Password'
@@ -1063,15 +1412,10 @@ class Controller_Install extends Controller
             'en' => 'Log in',
             'us' => 'Log in'
         ));
-        I18n::make('login_username_label', array(
+        I18n::make('login_label_username', array(
             'de' => 'Konto',
             'en' => 'Account',
             'us' => 'Account'
-        ));
-        I18n::make('login_username_placeholder', array(
-            'de' => 'ich@example.com',
-            'en' => 'you@example.com',
-            'us' => 'you@example.com'
         ));
         I18n::make('notfound_head_title', array(
             'de' => 'Seite nicht gefunden',
@@ -1100,11 +1444,6 @@ class Controller_Install extends Controller
             'us' => 'Name'
         ));
         I18n::make('role_legend', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
-        ));
-        I18n::make('role_placeholder_name', array(
             'de' => '',
             'en' => '',
             'us' => ''
@@ -1141,7 +1480,7 @@ class Controller_Install extends Controller
         ));
         //90
         I18n::make('scaffold_submit_apply_action', array(
-            'de' => 'Ausführen',
+            'de' => 'Anwenden',
             'en' => 'Run',
             'us' => 'Go'
         ));
@@ -1169,11 +1508,6 @@ class Controller_Install extends Controller
             'de' => '',
             'en' => '',
             'us' => ''
-        ));
-        I18n::make('team_placeholder_name', array(
-            'de' => 'Entwicklung',
-            'en' => 'Development',
-            'us' => 'Development'
         ));
         I18n::make('token_h1', array(
             'de' => 'Übersetzungen',
@@ -1205,11 +1539,6 @@ class Controller_Install extends Controller
             'de' => 'Beschreibung eventueller Ersetzungsparameter und Verwendungszweck',
             'en' => 'Document this token',
             'us' => 'Document this token'
-        ));
-        I18n::make('token_placeholder_name', array(
-            'de' => '',
-            'en' => '',
-            'us' => ''
         ));
         I18n::make('tokeni18n_legend', array(
             'de' => '',
@@ -1252,27 +1581,12 @@ class Controller_Install extends Controller
             'en' => '',
             'us' => ''
         ));
-        I18n::make('user_placeholder_email', array(
-            'de' => 'ich@example.com',
-            'en' => 'you@example.com',
-            'us' => 'you@example.com'
-        ));
-        I18n::make('user_placeholder_name', array(
-            'de' => 'Vor- und Zuname',
-            'en' => 'Full name',
-            'us' => 'Full name'
-        ));
-        I18n::make('user_placeholder_shortname', array(
-            'de' => 'admin',
-            'en' => 'admin',
-            'us' => 'admin'
-        ));
-        I18n::make('user_pw_label', array(
+        I18n::make('user_label_pw', array(
             'de' => 'Kennwort',
             'en' => 'Password',
             'us' => 'Password'
         ));
-        I18n::make('user_shortname_label', array(
+        I18n::make('user_label_shortname', array(
             'de' => 'Kurzname',
             'en' => 'Screenname',
             'us' => 'Screenname'
@@ -1338,12 +1652,12 @@ class Controller_Install extends Controller
             'en' => '',
             'us' => ''
         ));
-        I18n::make('account_newpassword_label', array(
+        I18n::make('account_label_newpassword', array(
             'de' => 'Neues Kennwort',
             'en' => 'New password',
             'us' => 'New password'
         ));
-        I18n::make('account_repeatedpassword_label', array(
+        I18n::make('account_label_repeatedpassword', array(
             'de' => 'Wiederholung',
             'en' => 'Repeat password',
             'us' => 'Repeat password'
@@ -1378,6 +1692,13 @@ class Controller_Install extends Controller
             'en' => 'Password was not changed',
             'us' => 'Password was not changed'
         ));
+        
+        //at the end we save setting
+        $setting->installed = true;
+        $setting->fiscalyear = date('Y');
+        $setting->exchangerateservice = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';//
+        $setting->exchangeratelastupd = date('Y-m-d');//never did
+        R::store($setting);
     }
     
     /**

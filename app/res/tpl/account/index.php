@@ -35,7 +35,6 @@
                     type="text"
                     id="user-name"
                     name="dialog[name]"
-                    placeholder="<?php echo I18n::__('user_placeholder_name') ?>"
                     value="<?php echo htmlspecialchars($record->name) ?>"
                     required="required" />
             </div>
@@ -49,7 +48,6 @@
                     type="email"
                     id="user-email"
                     name="dialog[email]"
-                    placeholder="<?php echo I18n::__('user_placeholder_email') ?>"
                     value="<?php echo htmlspecialchars($record->email) ?>"
                     required="required" />
             </div>
@@ -57,15 +55,32 @@
                 class="row <?php echo $record->hasError('shortname') ? 'error' : '' ?>">
                 <label
                     for="user-shortname">
-                    <?php echo I18n::__('user_shortname_label') ?>
+                    <?php echo I18n::__('user_label_shortname') ?>
                 </label>
                 <input
                     type="text"
                     id="user-shortname"
                     name="dialog[shortname]"
-                    placeholder="<?php echo I18n::__('user_placeholder_shortname') ?>"
                     value="<?php echo htmlspecialchars($record->shortname) ?>"
                     required="required" />
+            </div>
+            <div
+                class="row <?php echo $record->hasError('screenname') ? 'error' : '' ?>">
+                <label
+                    for="user-screenname">
+                    <?php echo I18n::__('user_label_screenname') ?>
+                </label>
+                <select
+                    id="user-screenname"
+                    name="dialog[screenname]">
+                    <?php foreach (array('name','email','shortname') as $_attr_name): ?>
+                    <option
+                        value="<?php echo $_attr_name ?>"
+                        <?php echo ($record->screenname == $_attr_name) ? 'selected="selected"' : '' ?>>
+                        <?php echo I18n::__('user_label_'.$_attr_name) ?>
+                    </option>
+                    <?php endforeach ?>
+                </select>
             </div>
         </fieldset>
         <!-- End of account form -->

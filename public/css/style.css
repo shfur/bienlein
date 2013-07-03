@@ -29,7 +29,7 @@ article, aside, figure, footer, header, hgroup, nav, section {display: block;}
    If this default setting for images is causing issues, you might want to replace it with a .responsive class instead. */
 img,
 object,
-embed {max-width: 100%;}
+embed {max-width: 100%; height: auto;}
 
 /* force a vertical scrollbar to prevent a jumpy page */
 html {overflow-y: scroll;}
@@ -412,6 +412,11 @@ ol ul {
 /* Set your font stuff for the document here */
 body {font: 1.2em/1 "Georgia", Palantino serif;}
 
+body.loading {
+    background-image: url(/img/loader.gif);
+    background-position: 50% 0.5em;
+    background-repeat: no-repeat;
+}
 
 /* Layout with 2-columns and footer sticking to the bottom */
 html {
@@ -423,6 +428,7 @@ body {
 }
 
 body > footer {
+    border-top: 1px solid silver;
     position: absolute;
     left: 0;
     right: 0;
@@ -654,11 +660,45 @@ form {
     padding: 0.5em 1em;
 }
 
+form.inline,
+form.inline-add {
+    padding: 0 1em 0 0;
+    line-height: 1;
+    border-top: none;
+}
+
+form.inline-add {
+    padding: 0 1em 0 0.5em;
+}
+
+form.page-add {
+    padding: 0;
+}
+
+.page-meta {
+    border-left: 1px solid red;
+    margin-left: -0.5em;
+    padding-left: 1em;
+}
+
+.panel.page-add input.fn.fn-page-name {
+    margin: 0;
+    width: 100%;
+}
+
+form.inline-add.slice fieldset,
+form.inline-add.slice div.buttons {
+    float: left;
+    margin-right: 1em;
+}
+
 form.langchooser {
     padding: 0 0.444em;
 }
 
 form.langchooser select {
+    padding: 0;
+    margin: 0;
     font-size: small;
 }
 
@@ -696,11 +736,14 @@ textarea {
 }
 
 /* detailed form stuff */
-.panel .buttons {
+.panel .buttons,
+.inline .buttons {
     text-align: right;
 }
 
-.panel legend {
+.panel legend,
+.inline legend,
+.inline-add legend {
     display: none;
 }
 
@@ -723,7 +766,7 @@ textarea {
     position: relative;
 }
 
-.panel .tabs {
+.tabs {
     border-bottom: 1px solid gray;
     margin-bottom: 1em;
     height: 1.5em;
@@ -742,12 +785,11 @@ ul.tab-navigation li {
 }
 
 ul.tab-navigation a {
+    background-color: white;
     text-decoration: none;
     border: 1px solid gray;
-    /*border-bottom: 0;*/
     color: inherit;
     padding: 0.222em 1em;
-    margin-bottom: -1px;
 }
 
 ul.tab-navigation a.selected {
@@ -763,64 +805,61 @@ ul.tab-navigation a.selected {
     font-weight: normal;
 }
 
+.panel p.info {
+    margin-top: 0.25em;
+    /*margin-left: 30%;*/
+    margin-left: 25.404255317%;
+    margin-bottom: 0;
+    font-size: small;
+    padding-left: 0.5em;
+    color: gray;
+}
+
+th.label {
+    width: 25.404255317%;
+}
+
 .panel label.cb {
     text-align: left;
     width: auto;
-    padding-left: 27.666%;
+    padding-left: 26.0%;
 }
 
-input[type=text],
-input[type=password],
-input[type=email],
-input[type=url],
-input[type=number],
-input[type=date],
-input[type=time],
-input[type=datetime],
-input[type=tel],
-input[type=file],
-textarea,
-select {
+.panel input[type=text],
+.panel input[type=password],
+.panel input[type=email],
+.panel input[type=url],
+.panel input[type=number],
+.panel input[type=date],
+.panel input[type=time],
+.panel input[type=datetime],
+.panel input[type=tel],
+.panel input[type=file],
+.panel textarea,
+.panel select {
     width: 74.468085099%;
     /*float: right;*/
     margin-left: 2%;
     padding: 0.222em;
 }
-input[type=file],
-input[type=datetime] {
+.panel input[type=file],
+.panel input[type=datetime] {
     width: auto;
 }
-
-.panel .upload {
-    position: relative;
+.panel .row select {
+    margin-top: 0.444em;
 }
-input.uploaded,
-input.uploaded[readonly="readonly"] {
-   padding-right: 34px;
-   background-image: url(/img/glyphicons/glyphicons_134_inbox_in.png);
-   background-position: right center;
-   background-repeat: no-repeat;
-   background-size: 20px 22px;
-}
-.panel .upload input[type=file] {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    /*z-index: 1;*/
-    opacity: 0;
-    margin-left: 0;
+.page-add .row select {
+    margin-top: 0;
 }
 
-.panel .preview {
-    display: block;
-    width: 100%;
-    text-align: center;
+select.filter-select {
+    margin-top: 0.333em;
 }
 
-input[type=number],
-input.number,
-select {
+.panel input[type=number],
+.panel input.number,
+.panel select {
     width: auto;
 }
 
@@ -932,7 +971,8 @@ input.monetary {
 .panel .row input[type=checkbox],
 .panel .row input[type=radio] {
     position: absolute;
-    left: 23.404255317%;
+    /*left: 23.404255317%;*/
+    left: 20.404255317%;
     /*left: 28%;*/
     top: 0.6em;
 }
@@ -1032,6 +1072,10 @@ input.monetary {
     background-size: 16px 16px;
 }
 
+input[type=submit].danger {
+    color: red;
+}
+
 .panel tfoot tr {
     background-color: silver;
 }
@@ -1081,6 +1125,81 @@ input.monetary {
 
 .panel tbody tr:nth-child(odd) {
     background-color: rgb(243, 246, 250);
+}
+
+/* cms, sitemap */
+#cms-container {
+    position: relative;
+    left: 0;
+    right: 0;
+    border-top: 1px solid silver;
+    padding: 0;
+    padding-top: 1em;
+}
+
+#sitemap ul {
+    line-height: 1.5;
+    margin: 0;
+    padding-left: 1em;
+    list-style: none;
+}
+
+#sitemap a,
+#pages-container a {
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#sitemap a:hover,
+#sitemap a.active,
+#pages-container a:hover,
+#pages-container a.active {
+    color: red;
+}
+
+#pages-container .unpublished {
+    color: gray;
+}
+
+#sitemap,
+#pages-container {
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid silver;
+}
+
+#pages-container,
+#page-container {
+    position: relative;
+    line-height: 1.5;
+}
+
+#pages-container ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.slice-container {
+    position: relative;
+    border-left: 1px solid silver;
+    margin-left: -0.5em;
+    padding-left: 1em;
+    margin-bottom: 1em;
+}
+.slice-container.active {
+    border-left: 1px solid red;
+}
+
+p.sitemap-choose,
+p.page-choose {
+    width: 100%;
+    font-size: smaller;
+    color: gray;
+    text-align: center;
+    padding-top: 8em;
 }
 
 /* Rounded gravatar: A background-image tag in html */

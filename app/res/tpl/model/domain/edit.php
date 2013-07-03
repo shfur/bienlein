@@ -29,7 +29,7 @@
             <option
                 value="<?php echo $_domain->getId() ?>"
                 <?php echo ($record->getId() == $_domain->getId()) ? 'disabled="disabled"' : '' ?>
-                <?php echo ($record->domain_id == $_domain->getId()) ? 'selected="selected"' : '' ?>><?php echo $_domain->name ?></option>   
+                <?php echo ($record->domain_id == $_domain->getId()) ? 'selected="selected"' : '' ?>><?php echo $_domain->i18n(Flight::get('language'))->name ?></option>   
             <?php endforeach ?>
         </select>
     </div>
@@ -42,7 +42,6 @@
             id="domain-name"
             type="text"
             name="dialog[name]"
-            placeholder="<?php echo I18n::__('domain_placeholder_name') ?>"
             value="<?php echo htmlspecialchars($record->name) ?>"
             required="required" />
     </div>
@@ -55,7 +54,6 @@
             id="domain-url"
             type="text"
             name="dialog[url]"
-            placeholder="<?php echo I18n::__('domain_placeholder_url') ?>"
             value="<?php echo htmlspecialchars($record->url) ?>" />
     </div>
     <div class="row">
@@ -95,15 +93,77 @@
     <?php Flight::render('shared/navigation/tabs', array(
         'tab_id' => 'domain-tabs',
         'tabs' => array(
+            'domain-rbac' => I18n::__('domain_rbac_tab'),
             'domain-translation' => I18n::__('domain_translation_tab')
         ),
-        'default_tab' => 'domain-translation'
+        'default_tab' => 'domain-rbac'
     )) ?>
     <fieldset
-        id="domain-translation"
+        id="domain-rbac"
         class="tab">
+        <legend class="verbose"><?php echo I18n::__('domain_legend_rbac') ?></legend>
+        <?php $_roles = R::findAll('role') ?>
+        <table>
+            <thead>
+                <tr class="">
+                    <th class="label">
+                        <?php echo I18n::__('domain_label_action') ?>
+                    </th>
+                    <?php foreach ($_roles as $_role_id => $_role): ?>
+                    <th>
+                        <?php echo $_role->i18n(Flight::get('language'))->name ?>
+                    </th>
+                    <?php endforeach ?>
+                </tr>
+            </thead>
+            <tbody>
+        <?php foreach (R::findAll('action') as $_action_id => $_action): ?>
+                <?php $_permission = $record->getPermission($_action->name) ?>
+                <tr>
+                    <td>
+                        <!-- permission on domain -->
+                        <input
+                            type="hidden"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][type]"
+                            value="<?php echo $_permission->getMeta('type') ?>" />
+                        <input
+                            type="hidden"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][id]"
+                            value="<?php echo $_permission->getId() ?>" />
+                        <input
+                            type="hidden"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][method]"
+                            value="<?php echo $_action->name ?>" />
+                        <?php echo I18n::__("action_{$_action->name}") ?>
+                    </td>
+                    <?php foreach ($_roles as $_role_id => $_role): ?>
+                    <td>
+                        <input
+                            type="hidden"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][sharedRole][<?php echo $_role->getId() ?>][type]"
+                            value="role" />                
+                        <input
+                            type="hidden"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][sharedRole][<?php echo $_role->getId() ?>][id]"
+                            value="0" />
+                        <input
+                            type="checkbox"
+                            name="dialog[ownPermission][<?php echo $_action->getId() ?>][sharedRole][<?php echo $_role->getId() ?>][id]"
+                            value="<?php echo $_role->getId() ?>"
+                            <?php echo (isset($_permission->sharedRole[$_role->getId()])) ? 'checked="checked"' : '' ?> />
+                    </td>
+                    <?php endforeach ?>
+                </tr>
+        <?php endforeach ?>
+            </tbody>
+        </table>
+    </fieldset>
+    <fieldset
+        id="domain-translation"
+        class="tab"
+        style="display: none;">
         <legend class="verbose"><?php echo I18n::__('tokeni18n_legend') ?></legend>
-        <?php foreach (R::find('language', ' enabled = ?', array(true)) as $_id => $_language): ?>
+        <?php foreach (R::findAll('language') as $_id => $_language): ?>
             <?php $_tokeni18n = $record->i18n($_language->iso) ?>
             <div class="row <?php echo ($_tokeni18n->hasError('name')) ? 'error' : ''; ?>">
                 <input

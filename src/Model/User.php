@@ -27,6 +27,15 @@ class Model_User extends Model
     {
         return array(
             array(
+                'name' => 'shortname',
+                'sort' => array(
+                    'name' => 'user.shortname'
+                ),
+                'filter' => array(
+                    'tag' => 'text'
+                )
+            ),
+            array(
                 'name' => 'name',
                 'sort' => array(
                     'name' => 'user.name'
@@ -43,6 +52,18 @@ class Model_User extends Model
                 'filter' => array(
                     'tag' => 'text'
                 )
+            ),
+            array(
+                'name' => 'isadmin',
+                'sort' => array(
+                    'name' => 'user.isadmin'
+                ),
+                'callback' => array(
+                    'name' => 'boolean'
+                ),
+                'filter' => array(
+                    'tag' => 'bool'
+                )
             )
         );
     }
@@ -58,6 +79,16 @@ class Model_User extends Model
     {
         if (isset($_SESSION['user']['id'])) return R::load('user', $_SESSION['user']['id']);
         return R::dispense('user');
+    }
+    
+    /**
+     * Returns the users screenname, depending on what the user has choose in the profile.
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->bean->{$this->bean->screenname};
     }
     
     /**
@@ -156,6 +187,7 @@ class Model_User extends Model
      */
     public function dispense()
     {
+        $this->bean->screenname = 'shortname';
         $this->autoInfo(true);
         $this->addValidator('name', array(
             new Validator_HasValue()

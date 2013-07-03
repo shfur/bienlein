@@ -24,7 +24,6 @@
             id="token-name"
             type="text"
             name="dialog[name]"
-            placeholder="<?php echo I18n::__('token_placeholder_name') ?>"
             value="<?php echo htmlspecialchars($record->name) ?>"
             required="required" />
     </div>
@@ -36,8 +35,11 @@
         <textarea
             id="token-desc"
             name="dialog[desc]"
-            rows="3"
-            placeholder="<?php echo I18n::__('token_placeholder_desc') ?>"><?php echo htmlspecialchars($record->desc) ?></textarea>
+            placeholder="<?php echo I18n::__('token_placeholder_desc') ?>"
+            rows="3"><?php echo htmlspecialchars($record->desc) ?></textarea>
+            <p class="info">
+                <?php echo I18n::__('token_info_desc') ?>
+            </p>
     </div>
 </fieldset>
 
@@ -53,7 +55,7 @@
         id="token-translation"
         class="tab">
         <legend class="verbose"><?php echo I18n::__('tokeni18n_legend') ?></legend>
-        <?php foreach (R::find('language', ' enabled = ?', array(true)) as $_id => $_language): ?>
+        <?php foreach (R::findAll('language') as $_id => $_language): ?>
             <?php $_tokeni18n = $record->i18n($_language->iso) ?>
             <div class="row <?php echo ($_tokeni18n->hasError('name')) ? 'error' : ''; ?>">
                 <input

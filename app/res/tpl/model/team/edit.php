@@ -24,7 +24,6 @@
             id="team-name"
             type="text"
             name="dialog[name]"
-            placeholder="<?php echo I18n::__('team_placeholder_name') ?>"
             value="<?php echo htmlspecialchars($record->name) ?>"
             required="required" />
     </div>
@@ -41,7 +40,7 @@
         id="team-translation"
         class="tab">
         <legend class="verbose"><?php echo I18n::__('tokeni18n_legend') ?></legend>
-        <?php foreach (R::find('language', ' enabled = ?', array(true)) as $_id => $_language): ?>
+        <?php foreach (R::findAll('language') as $_id => $_language): ?>
             <?php $_tokeni18n = $record->i18n($_language->iso) ?>
             <div class="row <?php echo ($_tokeni18n->hasError('name')) ? 'error' : ''; ?>">
                 <input

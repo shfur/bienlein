@@ -200,6 +200,7 @@ class Controller_Scaffold extends Controller
             return true;
         }
         catch (Exception $e) {
+            error_log($e);
             R::rollback();
             $this->notifyAbout('error');
             return false;
@@ -294,7 +295,7 @@ class Controller_Scaffold extends Controller
         $order = $attributes[$this->order]['sort']['name'].' '.$this->dir_map[$this->dir];
     	try {
     		return R::getCell(
-    		    $this->record->getSql("{$this->type}.id AS id", $where, $order, $offset, 1), 
+    		    $this->record->getSql("DISTINCT({$this->type}.id) AS id", $where, $order, $offset, 1), 
     		    $this->filter->getFilterValues()
     		);
     	} catch (Exception $e) {
@@ -335,6 +336,7 @@ class Controller_Scaffold extends Controller
     {
         if (empty($selection)) return false;
         if ( ! is_array($selection)) return false;
+        Permission::check(Flight::get('user'), $this->type, $action);
         R::begin();
         try {
             foreach ($selection as $id => $switch) {
@@ -399,6 +401,13 @@ class Controller_Scaffold extends Controller
             }
         }
         $this->getCollection();
+        if ($this->total_records == 0) {
+            if (Permission::check(Flight::get('user'), $this->type, 'add')) {
+                Flight::get('user')->notify(I18n::__('scaffold_no_records_add_one'));
+                //return $this->add($this->layout);//this would not work because we dont set form action
+                $this->redirect("{$this->base_url}/{$this->type}/add/{$this->layout}");
+            }
+        }
         
         $this->pagination = new Pagination(
             Url::build("{$this->base_url}/{$this->type}/"),
@@ -459,7 +468,7 @@ class Controller_Scaffold extends Controller
      */
     public function edit($page, $order, $dir, $layout)
     {
-        Permission::check(Flight::get('user'), $this->type, 'edit');
+        Permission::check(Flight::get('user'), $this->type, 'read');
         $this->action = 'edit';
         $this->page = $page;
         $this->order = $order;
@@ -467,6 +476,7 @@ class Controller_Scaffold extends Controller
         $this->layout = $layout;
         $this->template = "model/{$this->type}/edit";
 		if (Flight::request()->method == 'POST') {
+		    Permission::check(Flight::get('user'), $this->type, 'edit');//check for edit perm now
             $this->record = R::graph(Flight::request()->data->dialog, true);
             $this->setNextAction(Flight::request()->data->next_action);
             if ($this->doRedbeanAction()) {

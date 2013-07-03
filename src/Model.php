@@ -97,6 +97,48 @@ class Model extends RedBean_SimpleModel
     }
     
     /**
+     * Returns a string representing a boolean state of an beans attribute.
+     *
+     * @param string $attribute name to represent as a true or false string
+     * @return string
+     */
+    public function boolean($attribute)
+    {
+        if ($this->bean->{$attribute}) return I18n::__('bool_true');
+        return I18n::__('bool_false');
+    }
+    
+    /**
+     * Returns the root bean of a hierarchy.
+     *
+     * If the optional parameter is set the last bean before the parent bean with
+     * the given id will be returnded. Stop by sitesfolder id for example when you
+     * want to cut the tree a certain level when building a simple cms based on domain.
+     *
+     * @uses getRoot() to return the domain up one level
+     *
+     * @param int (optional) $stop_id of the domain to cut the bubble up route
+     * @return RedBean_OODBBean $root
+     */
+    public function getRoot($stop_id = 0)
+    {
+        if ( ! $this->bean->{$this->bean->getMeta('type')}) return $this->bean;
+        if ($this->bean->{$this->bean->getMeta('type')}->getId() == $stop_id) return $this->bean;
+        return $this->bean->{$this->bean->getMeta('type')}->getRoot($stop_id);
+    }
+    
+    /**
+     * Returns an array with direct descendents of this bean.
+     *
+     * @return array $children
+     */
+    public function getChildren()
+    {
+        $own = 'own'.ucfirst($this->bean->getMeta('type'));
+        return $this->bean->{$own};
+    }
+    
+    /**
      * Returns SQL string.
      *
      * Use with DISTINCT([table].id) to fetch all beans or use with COUNT(DISTINCT([table].id))
