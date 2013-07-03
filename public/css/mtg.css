@@ -387,7 +387,7 @@ body {
     width: 100%;
     height: 100%;
     margin: 0;
-    background: rgb(182, 219, 165) url(/img/mtg/mtg-bg-back.jpg) repeat-y;
+    background: rgb(182, 219, 165) url(/img/mtg/mtg-bg-back.jpg) center center repeat-y;
     position: relative;
 }
 
