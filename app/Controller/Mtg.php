@@ -130,6 +130,13 @@ class Controller_Mtg extends Controller
 	public $articles = array();
 	
 	/**
+	 * Container for news.
+	 *
+	 * @var array
+	 */
+	public $news = array();
+	
+	/**
 	 * Container to map oxid article attributes.
 	 *
 	 * @var array
@@ -149,14 +156,14 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_thead_template_guest = '<thead><tr><th>%1$s</th><th>%2$s</th><th>%3$s</th><th>%4$s</th><th>%5$s</th><th>%6$s</th><th>%7$s</th></tr></thead>';
+	public $oxid_thead_template_guest = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-thumb">%5$s</th><th class="fn-size">%6$s</th><th class="fn-package">%7$s</th></tr></thead>';
 
 	/**
 	 * Holds the thead template for a logged user.
 	 *
 	 * @var string
 	 */
-	public $oxid_thead_template_cust = '<thead><tr><th>%1$s</th><th>%2$s</th><th>%3$s</th><th>%4$s</th><th>%5$s</th><th>%6$s</th><th>%7$s</th><th>%8$s</th></tr></thead>';
+	public $oxid_thead_template_cust = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-thumb">%5$s</th><th class="fn-size">%6$s</th><th class="fn-package">%7$s</th><th class="fn-avail">%8$s</th></tr></thead>';
 
 	/**
 	 * Holds the template for an oxid article.
@@ -216,6 +223,7 @@ class Controller_Mtg extends Controller
 		if ($this->location == 'login') return $this->login();
 		if ($this->location == 'logout') return $this->logout();
 		if ($this->location == 'portfolio') return $this->portfolio();
+		if ($this->location == 'home') return $this->home();
 		$this->render();
 	}
 
@@ -253,6 +261,16 @@ class Controller_Mtg extends Controller
 		$this->redirect('/home');
 	}
 
+	
+	/**
+	 * Renders the home page with news.
+	 */
+	public function home()
+	{
+		$this->sidebar_template = 'news';
+		$this->news = R::dispense('news', 5);
+		$this->render();
+	}
 	
 	/**
 	 * Renders the portfolio page.
@@ -442,7 +460,8 @@ SQL;
 		Flight::render('mtg/'.$this->sidebar_template, array(
 			'domain' => $this->domain,
 			'categories' => $this->categories,
-			'q' => $this->q
+			'q' => $this->q,
+			'news' => $this->news
 		), 'sidebar');
         Flight::render('mtg/html5', array(
             'title' => $this->page->name,
