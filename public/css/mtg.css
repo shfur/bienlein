@@ -389,6 +389,10 @@ body {
     margin: 0;
     background: rgb(182, 219, 165) url(/img/mtg/mtg-bg-back.jpg) center center repeat-y;
     position: relative;
+	-webkit-hyphens: auto;
+	 -moz-hyphens: auto;
+	 -ms-hyphens: auto;
+	 hyphens: auto;
 }
 
 /* we want a fixed width */
@@ -455,6 +459,7 @@ header.master h2 {
 .sidebar {
     width: 167px;
     float: left;
+	position: relative;
 }
 
 /* other way round on home/news */
@@ -462,10 +467,16 @@ header.master h2 {
     padding-right: 0;
     padding-left: 23px;
     float: left;
+	width: 700px;
 }
 
 #home .sidebar {
     float: right;
+	width: 242px;
+}
+
+#home .sidebar a {
+	color: rgb(210, 35, 42);
 }
 
 /* on other pages content takes full advantage */
@@ -511,6 +522,16 @@ header.master h2 {
 	color: rgb(210, 35, 42);
 }
 
+.content article h2 {
+	text-transform: uppercase;
+	font-size: 1.2em;
+}
+.content article h3 {
+	font-size: 1.2em;
+	font-weight: normal;
+	margin-bottom: 0.5em;
+}
+
 .content .tiles {
 	position: relative;
 }
@@ -531,6 +552,8 @@ header.master h2 {
 .content ul,
 .content ol {
 	margin-bottom: 1em;
+	line-height: 1.5;
+    color: rgb(128, 130, 133);
 }
 
 .content article:first-child {
@@ -604,13 +627,14 @@ input#q {
 #account {
 	margin: 0;
 	padding: 0;
-	padding-top: 4px;
+	padding-top: 7px;
 	position: absolute;
 	top: 389px;
 	right: 0px;
-	width: 415px;
+	width: 371px;
 	height: 35px;
 	border-left: 1px solid white;
+	font-size: 0.8em;
 }
 
 #account h3 {
@@ -664,12 +688,40 @@ input#q {
 	background-image: url(/img/mtg/mtg-icon-login.jpg);
 	background-position: center center;
 	width: 41px;
-	line-height: 24px;
+	line-height: 19px;
 }
 
 #account h3 a {
 	padding-right: 24px;
 	background: url(/img/mtg/mtg-icon-login.jpg) right center no-repeat;
+}
+
+form#contact {
+	position: absolute;
+	top: 0;
+	left: 1em;
+	z-index: 1;
+	width: 462px;
+	font-size: 0.8em;
+	color: gray;
+}
+
+form#contact legend {
+	display: none;
+}
+
+form#contact .row {
+	margin-bottom: 1.666em;
+}
+
+form#contact input[type=submit] {
+	float: right;
+	color: white;
+	background-color: rgb(210, 35, 42);
+}
+
+form#contact p.contact-required-info {
+	float: left;
 }
 
 /* sidebar news stuff */
@@ -681,15 +733,43 @@ input#q {
 }
 
 .sidebar.news {
+	width: 242px;
     background-color: white;
     color: rgb(128, 130, 133);
-    padding: 1em 0.5em;
+    padding: 0;/*1em 0.5em;*/
+	margin-top: 25px;
+}
+
+.sidebar.news::before {
+	position: absolute;
+	top: -25px;
+	left: 0;
+	right: 0;
+	content: url(/img/mtg/mtg-rand-news-oben.png);
+	height: 25px;
+}
+
+.sidebar.news::after {
+	position: absolute;
+	bottom: -23px;
+	left: 0;
+	right: 0;
+	content: url(/img/mtg/mtg-rand-news-unten.png);
+	height: 23px;
+}
+
+.sidebar.news h2 {
+	font-size: 20px;
+	margin: 1em 0.5em 0 0.5em;
+	text-transform: uppercase;
+	padding-left: 30px;
+	background: rgb(238, 246, 234) url(/img/mtg/mtg-news-header-bg.png) center left no-repeat;
 }
 
 .sidebar.news .item.news {
     font-size: 13px;
-    margin: 1em 0.5em 0 0;
-    padding: 0.5em;
+    margin: 1em 0.5em 0 0.5em;
+    padding: 1.5em;
 }
 
 .sidebar.news .item.news {
@@ -809,6 +889,28 @@ ul.secondary a {
     background-repeat: repeat-y;
     padding: 10px;
     width: 167px;
+	margin-top: 25px;
+	position: relative;
+}
+
+.navscroll::before {
+	position: absolute;
+	top: -25px;
+	left: 0;
+	content: url(/img/mtg/mtg-rand-oben.png);
+	height: 25px;
+	width: 187px;
+	overflow: hidden;
+}
+
+.navscroll::after {
+	position: absolute;
+	bottom: -23px;
+	left: 0;
+	content: url(/img/mtg/mtg-rand-unten.png);
+	height: 23px;
+	width: 187px;
+	overflow: hidden;
 }
 
 .navscroll form {
@@ -818,9 +920,9 @@ ul.secondary a {
 .navscroll li a {
     color: gray;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
-    line-height: 36px;
+    line-height: 34px;
 }
 
 .navscroll li.active a,
@@ -847,6 +949,39 @@ ul.main li a {
     font-weight: 500;
 }
 
+/* special tiles for extra pages: privacy, legal, etc. */
+#privacy .tiles,
+#legal .tiles,
+#sitemap .tiles,
+#imprint .tiles {
+	background-color: rgb(238, 247, 234);
+	width: 473px;
+	padding: 10px;
+}
+#privacy .tiles::before,
+#legal .tiles::before,
+#sitemap .tiles::before,
+#imprint .tiles::before {
+	position: absolute;
+	top: -25px;
+	left: 0;
+	right: 0;
+	content: url(/img/mtg/mtg-rand-oben.png);
+	height: 25px;
+}
+
+#privacy .tiles::after,
+#legal .tiles::after,
+#sitemap .tiles::after,
+#imprint .tiles::after {
+	position: absolute;
+	bottom: -23px;
+	left: 0;
+	right: 0;
+	content: url(/img/mtg/mtg-rand-unten.png);
+	height: 23px;
+}
+
 /* Basic jQuery Slider essential styles */
 
 ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
@@ -861,6 +996,15 @@ ol.bjqs-markers li{display:inline;}
 ol.bjqs-markers li a{display:inline-block;}
 p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
 
+/* make nice portfolio tables */
+th.fn-artno { width: 3em; }
+th.fn-product { width: 7em; }
+th.fn-brand { width: 76px; }
+th.fn-usage { width: 12em; }
+th.fn-thumb {}
+th.fn-size { width: 5em; }
+th.fn-package {}
+th.fn-avail {}
 
 /* using local fonts? make sure to read up on Paul Irish's 
 	Bulletproof @font-face syntax: http://mky.be/font-face/bulletproof/ */
