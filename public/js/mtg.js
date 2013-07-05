@@ -1,7 +1,7 @@
 // docked state
 var docked = false;
 // offset for scrollnav
-var offset = 0;
+var offset = 150;
 
 /* Ready, Set, Go. */
 $(document).ready(function() {
