@@ -20,70 +20,62 @@
 	<div class="span6 pdetails">
 		
 		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_artno') ?>
 			</span>
-			<span class="val">
+			<span class="span9 val">
 				<?php echo htmlspecialchars($article['OXARTNUM']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_product') ?>
 			</span>
-			<span class="val">
-				<?php echo htmlspecialchars($article['OXTITLE']) ?>
+			<span class="span9 val">
+				<?php echo ($article['OXTITLE']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="attr">
-				<?php echo I18n::__('mtg_th_size') ?>
-			</span>
-			<span class="val">
-				<?php echo ($attributes['Größe']) ?>
-			</span>
-		</div>
-		
-		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_package') ?>
 			</span>
-			<span class="val">
+			<span class="span9 val">
 				<?php echo ($attributes['Gebinde']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_tgtk') ?>
 			</span>
-			<span class="val">
+			<span class="span9 val">
 				<?php echo htmlspecialchars($attributes['TG/TK']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_manufacturer') ?>
 			</span>
-			<span class="val">
+			<span class="span9 val">
 				<?php echo htmlspecialchars($article['manu_title']) ?><br />
 				<img
 					src="<?php echo Flight::get('oxid_path_manu').$article['manu_icon'] ?>"
 					alt="<?php echo htmlspecialchars($article['manu_title']) ?>"
 					title=""
 					width="90"
-					height="auto" />
+					height="auto" /><br />
+				<?php echo htmlspecialchars($article['manu_shortdesc']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="attr">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_ls') ?>
 			</span>
-			<span class="val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>">
+			<span class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>">
 				<?php echo htmlspecialchars($article['OXSTOCKFLAG']) ?>
 			</span>
 		</div>

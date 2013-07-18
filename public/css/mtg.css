@@ -508,7 +508,7 @@ header.master h2 {
 #productdetail .content {
 	background-color: white;
 	width: 770px;
-	padding: 1em;
+	padding: 10px;
 	position: relative;
 }
 
@@ -517,7 +517,7 @@ header.master h2 {
 	top: -25px;
 	left: 0;
 	right: 0;
-	content: url(/img/mtg/mtg-rand-details-oben.png);
+	content: url(/img/mtg/mtg-rand-detail-oben.png);
 	height: 25px;
 }
 
@@ -526,7 +526,7 @@ header.master h2 {
 	bottom: -23px;
 	left: 0;
 	right: 0;
-	content: url(/img/mtg/mtg-rand-details-unten.png);
+	content: url(/img/mtg/mtg-rand-detail-unten.png);
 	height: 23px;
 }
 
@@ -536,8 +536,27 @@ a.close-details {
 	text-decoration: none;
 	color: gray;
 	padding-left: 20px;
-	background: url(/img/mtg/mtg-icon-goback.png) no-repeat;
+	background: url(/img/mtg/mtg-icon-pfeil-li.png) no-repeat;
 	margin-bottom: 1em;
+}
+
+.content p.backofen,
+.content p.konvektomat,
+.content p.friteuse,
+.content p.mikrowelle {
+	padding-left: 64px;
+	background: url(/img/mtg/mtg-icon-backofen.png) center left no-repeat;
+	min-height: 64px;
+	line-height: 64px;
+}
+.content p.konvektomat {
+	background: url(/img/mtg/mtg-icon-konvektomat.png) center left no-repeat;
+}
+.content p.friteuse {
+	background: url(/img/mtg/mtg-icon-friteuse.png) center left no-repeat;
+}
+.content p.mikrowelle {
+	background: url(/img/mtg/mtg-icon-mikrowelle.png) center left no-repeat;
 }
 
 #privacy .sidebar,

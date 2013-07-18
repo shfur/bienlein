@@ -296,7 +296,6 @@ class Controller_Mtg extends Controller
 		}
 		$this->sidebar_template = 'pdetaillegend';
 		$this->page = R::dispense('page');
-		$this->page->name = 'product detail';
 		R::selectDatabase('oxid');
 		$articles = $this->getArticleById($oxartid, Flight::get('language'));
 		$attributes = $this->getAttributes($oxartid, Flight::get('language'));
@@ -306,6 +305,7 @@ class Controller_Mtg extends Controller
 			return;
 		}
 		$article = reset($articles);
+		$this->page->name = $article['OXTITLE'];
 		ob_start();
 		Flight::render('mtg/pdetail', array(
 			'article' => $article,
