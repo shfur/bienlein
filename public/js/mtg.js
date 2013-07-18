@@ -21,6 +21,15 @@ $(document).ready(function() {
         if (item.length) { return item; }
     });
 
+	jQuery(function($) {
+	    $('a[href$=".pdf"]').attr('target', '_blank');
+	});
+	
+	$("a#scrolltop").click(function(e) {
+		e.preventDefault();
+		$(window).scrollTo('0px', 800);
+	});
+
 	/**
 	 * @see http://www.basic-slider.com
 	 */
@@ -32,7 +41,16 @@ $(document).ready(function() {
 			'automatic': true,
 			'animtype': 'slide',
 			'animspeed': 4000
-	    });
+	});
+	$('#home-slider').bjqs({
+	        'height' : 860,
+	        'width' : 700,
+			'showcontrols': false,
+			'showmarkers': false,
+			'automatic': true,
+			'animtype': 'fade',
+			'animspeed': 4000
+	});
 
     // Bind to scroll
     $(window).scroll(function(){
@@ -58,9 +76,11 @@ $(document).ready(function() {
     	    // if yes, add “fixed” class to the <nav>
        	    // add padding top to the #content  (value is same as the height of the nav)
        	    $('.navscroll').addClass('fixed');
+			$("a#scrolltop").addClass('visible');
     		docked = true;
     	} else if ($(window).scrollTop() < 420) {
     		$('.navscroll').removeClass('fixed');
+			$("a#scrolltop").removeClass('visible');
     		docked = false;
     	}
     });

@@ -191,6 +191,14 @@ Flight::route('(/[a-z]{2})/forbidden', function() {
 });
 
 /**
+ * Route to MTG product detail page.
+ */
+Flight::route('(/[a-z]{2})/portfolio/@product:[a-z0-9]{32}', function($oxartid) {
+	$mtgController = new Controller_Mtg('productdetail');
+	$mtgController->productDetail($oxartid);
+});
+
+/**
  * Route to our MTG pages.
  */
 Flight::route('(/[a-z]{2})/(@location)', function($location) {

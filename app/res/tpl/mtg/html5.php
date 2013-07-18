@@ -20,7 +20,8 @@
 		<meta name="viewport" content="width=device-width">
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+        <!--<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>-->
+		<link rel="stylesheet" type="text/css" href="/css/MyFontsWebfontsKit.css">
 		<link rel="stylesheet" href="/css/mtg.css">
 		<!--[if lt IE 9]>
         <script src="js/html5shiv.js"></script>

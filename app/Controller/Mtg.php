@@ -156,21 +156,21 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_thead_template_guest = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-thumb">%5$s</th><th class="fn-size">%6$s</th><th class="fn-package">%7$s</th></tr></thead>';
+	public $oxid_thead_template_guest = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-thumb">%5$s</th><th class="fn-package">%7$s</th><th class="fn-tgtk">%9$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th></tr></thead>';
 
 	/**
 	 * Holds the thead template for a logged user.
 	 *
 	 * @var string
 	 */
-	public $oxid_thead_template_cust = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-thumb">%5$s</th><th class="fn-size">%6$s</th><th class="fn-package">%7$s</th><th class="fn-avail">%8$s</th></tr></thead>';
+	public $oxid_thead_template_cust = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-thumb">%5$s</th><th class="fn-package">%7$s</th><th class="fn-tgtk">%8$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-avail">%9$s</th></tr></thead>';
 
 	/**
 	 * Holds the template for an oxid article.
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%3$s" alt="%8$s" /></td><td>%4$s</td><td><img src="%5$s" alt="%2$s" /></td><td>%6$s</td><td>%7$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
 	
 	/**
 	 * Holds the template for an oxid article when user is logged in.
@@ -179,7 +179,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%3$s" alt="%8$s" /></td><td>%4$s</td><td><img src="%5$s" alt="%2$s" /></td><td>%6$s</td><td>%7$s</td><td>LS</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td><td>%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
@@ -284,6 +284,43 @@ class Controller_Mtg extends Controller
 	}
 	
 	/**
+	 * Displays a product detail page.
+	 *
+	 * @param string $oxartid
+	 */
+	public function productDetail($oxartid)
+	{
+		if ( ! $this->oxuser) {
+			echo 'You are not logged in';
+			return;
+		}
+		$this->sidebar_template = 'pdetaillegend';
+		$this->page = R::dispense('page');
+		$this->page->name = 'product detail';
+		R::selectDatabase('oxid');
+		$articles = $this->getArticleById($oxartid, Flight::get('language'));
+		$attributes = $this->getAttributes($oxartid, Flight::get('language'));
+		R::selectDatabase('default');
+		if (empty($articles)) {
+			echo 'No article';
+			return;
+		}
+		$article = reset($articles);
+		ob_start();
+		Flight::render('mtg/pdetail', array(
+			'article' => $article,
+			'attributes' => $attributes
+		));
+		$this->content = ob_get_contents();
+		ob_end_clean();
+		$this->render();
+		//lookup this url in oxseo
+		//left join the article that this page is about
+		//find the prev and next article in that cat
+		//display a partial template that show the article
+	}
+	
+	/**
 	 * Generates the content from the oxid shop.
 	 *
 	 * For all categories and articles in thoses categories we
@@ -296,10 +333,29 @@ class Controller_Mtg extends Controller
 		$i18n_empty = I18n::__('mtg_cat_empty');
 		
 		if ($this->oxuser) {
-			$thead_template = sprintf($this->oxid_thead_template_cust, I18n::__('mtg_th_artno'), I18n::__('mtg_th_product'), I18n::__('mtg_th_manufacturer'), I18n::__('mtg_th_desc'), I18n::__('mtg_th_thumb'), I18n::__('mtg_th_size'), I18n::__('mtg_th_package'), I18n::__('mtg_th_ls'));
+			$thead_template = sprintf($this->oxid_thead_template_cust,
+					I18n::__('mtg_th_artno'),
+					I18n::__('mtg_th_product'),
+					I18n::__('mtg_th_manufacturer'),
+					I18n::__('mtg_th_desc'),
+					I18n::__('mtg_th_thumb'),
+					I18n::__('mtg_th_size'),
+					I18n::__('mtg_th_package'),
+					I18n::__('mtg_th_tgtk'),
+					I18n::__('mtg_th_ls')
+			);
 			$art_template = $this->oxid_art_template_cust;
 		} else {
-			$thead_template = sprintf($this->oxid_thead_template_guest, I18n::__('mtg_th_artno'), I18n::__('mtg_th_product'), I18n::__('mtg_th_manufacturer'), I18n::__('mtg_th_desc'), I18n::__('mtg_th_thumb'), I18n::__('mtg_th_size'), I18n::__('mtg_th_package'));
+			$thead_template = sprintf($this->oxid_thead_template_guest,
+			 		I18n::__('mtg_th_artno'),
+					I18n::__('mtg_th_product'),
+					I18n::__('mtg_th_manufacturer'),
+					I18n::__('mtg_th_desc'),
+					I18n::__('mtg_th_thumb'),
+					I18n::__('mtg_th_size'),
+					I18n::__('mtg_th_package'),
+					'',
+					I18n::__('mtg_th_tgtk'));
 			$art_template = $this->oxid_art_template_guest;
 		}
 		
@@ -325,7 +381,20 @@ class Controller_Mtg extends Controller
 				$this->content .= '<tbody>'."\n";
 				foreach ($articles as $m => $article) {
 					$attributes = $this->getAttributes($article['OXID'], $lang);
-					$this->content .= sprintf($art_template, $article['OXARTNUM'], $article['OXTITLE'], Flight::get('oxid_path_manu').$article['manu_icon'], $article['OXSHORTDESC'], Flight::get('oxid_path_art').$article['OXPIC1'], $attributes['Größe'], $attributes['Gebinde'], $article['manu_title']);
+					$this->content .= sprintf($art_template,
+							$article['OXARTNUM'],
+							$article['OXTITLE'],
+							Flight::get('oxid_path_manu').$article['manu_icon'],
+							$article['OXSHORTDESC'],
+							Flight::get('oxid_path_art').$article['OXPIC1'],
+							$attributes['Größe'],
+							$attributes['Gebinde'],
+							$article['manu_title'],
+							$attributes['TG/TK'],
+							$article['manu_shortdesc'],
+							'<div title="Avail" class="avail avail-'.$article['OXSTOCKFLAG'].'">&nbsp;</div>',
+							$article['OXID']
+					);
 				}
 			
 				$this->content .= '</tbody>'."\n";
@@ -352,7 +421,8 @@ class Controller_Mtg extends Controller
 		SELECT
 			art.*,
 			manu.oxicon AS manu_icon,
-			manu.oxtitle AS manu_title
+			manu.oxtitle AS manu_title,
+			manu.oxshortdesc AS manu_shortdesc
 		FROM
 			oxv_oxarticles_%1\$s AS art
 		LEFT JOIN
@@ -361,9 +431,42 @@ class Controller_Mtg extends Controller
 			oxv_oxmanufacturers_%1\$s AS manu ON manu.oxid = art.oxmanufacturerid
 		WHERE
 			cat.oxcatnid = ?
+		ORDER BY
+			cat.oxpos, art.oxartnum
 SQL;
 		$sql = sprintf($sql, $lang);
 		return R::getAll($sql, array($cat_id));
+	}
+	
+	/**
+	 * Returns an array with one article found by oxseo::url.
+	 *
+	 * @param string $oxartid
+	 * @param string $lang
+	 * @return array
+	 */
+	protected function getArticleById($oxartid, $lang)
+	{
+		$sql = <<<SQL
+		SELECT
+			art.*,
+			manu.oxicon AS manu_icon,
+			manu.oxtitle AS manu_title,
+			manu.oxshortdesc AS manu_shortdesc,
+			artextend.oxlongdesc AS OXLONGDESC
+		FROM
+			oxv_oxarticles_%1\$s AS art
+		LEFT JOIN
+			oxobject2category AS cat ON cat.oxobjectid = art.oxid
+		LEFT JOIN
+			oxv_oxmanufacturers_%1\$s AS manu ON manu.oxid = art.oxmanufacturerid
+		LEFT JOIN
+			oxv_oxartextends_%1\$s AS artextend ON artextend.oxid = art.oxid
+		WHERE
+			art.oxid = ?
+SQL;
+		$sql = sprintf($sql, $lang);
+		return R::getAll($sql, array($oxartid));
 	}
 	
 	/**
