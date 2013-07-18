@@ -305,7 +305,7 @@ class Controller_Mtg extends Controller
 			return;
 		}
 		$article = reset($articles);
-		$this->page->name = $article['OXTITLE'];
+		$this->page->name = htmlspecialchars(strip_tags($article['OXTITLE']));
 		ob_start();
 		Flight::render('mtg/pdetail', array(
 			'article' => $article,
