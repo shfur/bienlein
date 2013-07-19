@@ -49,7 +49,8 @@ $(document).ready(function() {
 			'showmarkers': false,
 			'automatic': true,
 			'animtype': 'fade',
-			'animspeed': 4000
+			'animspeed': 4000,
+			'animduration': 0
 	});
 
     // Bind to scroll

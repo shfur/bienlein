@@ -75,7 +75,9 @@
 			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_ls') ?>
 			</span>
-			<span class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>">
+			<span
+				class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
+				title="<?php echo I18n::__('mtg_avail_'.$article['OXSTOCKFLAG']) ?>">
 				<?php echo htmlspecialchars($article['OXSTOCKFLAG']) ?>
 			</span>
 		</div>
@@ -119,6 +121,17 @@
 				<?php endforeach ?>
 			</span>
 		</div>
-		
+		<?php if ( ! empty($files)): ?>
+			<div class="row">
+				<span class="attr"><?php echo I18n::__('mtg_th_downloads') ?></span><br />
+				<span>
+			<?php $i = 0 ?>
+			<?php foreach ($files as $n => $file): ?>
+			<?php $i++ ?>
+				<a href="/mtg/download/?file=<?php echo urlencode($file['OXFILENAME']) ?>"><?php echo I18n::__('mtg_detail_download_'.$i) ?></a><br />
+			<?php endforeach ?>
+				</span>
+			</div>
+		<?php endif ?>
 	</div>
 </div>

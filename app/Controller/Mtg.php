@@ -170,7 +170,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
 	
 	/**
 	 * Holds the template for an oxid article when user is logged in.
@@ -291,7 +291,8 @@ class Controller_Mtg extends Controller
 	public function productDetail($oxartid)
 	{
 		if ( ! $this->oxuser) {
-			echo 'You are not logged in';
+			//echo 'You are not logged in';
+			$this->redirect('/');
 			return;
 		}
 		$this->sidebar_template = 'pdetaillegend';
@@ -299,6 +300,7 @@ class Controller_Mtg extends Controller
 		R::selectDatabase('oxid');
 		$articles = $this->getArticleById($oxartid, Flight::get('language'));
 		$attributes = $this->getAttributes($oxartid, Flight::get('language'));
+		$files = $this->getFilesByArtId($oxartid);
 		R::selectDatabase('default');
 		if (empty($articles)) {
 			echo 'No article';
@@ -309,15 +311,30 @@ class Controller_Mtg extends Controller
 		ob_start();
 		Flight::render('mtg/pdetail', array(
 			'article' => $article,
-			'attributes' => $attributes
+			'attributes' => $attributes,
+			'files' => $files
 		));
 		$this->content = ob_get_contents();
 		ob_end_clean();
 		$this->render();
-		//lookup this url in oxseo
-		//left join the article that this page is about
-		//find the prev and next article in that cat
-		//display a partial template that show the article
+	}
+	
+	/**
+	 * Send a product pdf to the client.
+	 */
+	public function download()
+	{
+		R::selectDatabase('oxid');
+		$files = $this->getFilesByName(Flight::request()->query->file);
+		if (empty($files)) $this->redirect('/');
+		$file = reset($files);
+		$dwnloadDir = substr($file['OXSTOREHASH'], 0, 2);
+		$dwnloadFile = Flight::get('oxid_dir_downloads').$dwnloadDir.'/'.$file['OXSTOREHASH'];
+		if ( ! is_file($dwnloadFile)) $this->redirect('/');
+		//error_log($dwnloadFile);
+		header('Content-type: application/pdf');
+		header('Content-Disposition: inline; filename="'.$file['OXFILENAME'].'"');
+		@readfile($dwnloadFile);
 	}
 	
 	/**
@@ -331,6 +348,12 @@ class Controller_Mtg extends Controller
 	protected function getOxidContent($lang)
 	{
 		$i18n_empty = I18n::__('mtg_cat_empty');
+		$avail = array(
+			'1' => I18n::__('mtg_avail_1'),
+			'2' => I18n::__('mtg_avail_2'),
+			'3' => I18n::__('mtg_avail_3'),
+			'4' => I18n::__('mtg_avail_4')
+		);
 		
 		if ($this->oxuser) {
 			$thead_template = sprintf($this->oxid_thead_template_cust,
@@ -392,7 +415,7 @@ class Controller_Mtg extends Controller
 							$article['manu_title'],
 							$attributes['TG/TK'],
 							$article['manu_shortdesc'],
-							'<div title="Avail" class="avail avail-'.$article['OXSTOCKFLAG'].'">&nbsp;</div>',
+							'<div title="'.$avail[$article['OXSTOCKFLAG']].'" class="avail avail-'.$article['OXSTOCKFLAG'].'">&nbsp;</div>',
 							$article['OXID']
 					);
 				}
@@ -491,6 +514,48 @@ SQL;
 SQL;
 		$sql = sprintf($sql, $lang);
 		return R::$adapter->getAssoc($sql, array($article_id));
+	}
+	
+	/**
+	 * Returns an array with files attached to the given article.
+	 *
+	 * @param string $article_id
+	 * @return array
+	 */
+	protected function getFilesByArtId($article_id)
+	{
+		$sql = <<<SQL
+		SELECT
+			*
+		FROM
+			oxfiles
+		WHERE
+			OXARTID = ?
+		ORDER BY
+			OXTIMESTAMP
+SQL;
+		//$sql = sprintf($sql);
+		return R::getAll($sql, array($article_id));
+	}
+	
+	/**
+	 * Returns an array with oxfiles with given name.
+	 *
+	 * @param string $filename
+	 * @return array
+	 */
+	protected function getFilesByName($filename)
+	{
+		$sql = <<<SQL
+		SELECT
+			*
+		FROM
+			oxfiles
+		WHERE
+			OXFILENAME = ?
+SQL;
+		//$sql = sprintf($sql);
+		return R::getAll($sql, array($filename));
 	}
 
 	/**

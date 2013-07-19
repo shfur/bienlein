@@ -224,6 +224,14 @@ Flight::route('(/[a-z]{2})/mtg/logout', function() {
 });
 
 /**
+ * Route to our MTG download.
+ */
+Flight::route('GET (/[a-z]{2})/mtg/download', function() {
+	$mtgController = new Controller_Mtg('download');
+	$mtgController->download();
+});
+
+/**
  * Catch all before notFound.
  *
  * @todo Lets go through our CMS (Frontend) controller later on to check that URL
