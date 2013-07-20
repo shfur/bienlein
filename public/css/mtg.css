@@ -465,6 +465,7 @@ header.master h2 {
 .sidebar a#scrolltop {
 	position: absolute;
 	bottom: -80px;
+	right: -913px;
 	z-index:10;
 	display:none;
 	width: 167px;
