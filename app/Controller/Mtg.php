@@ -279,6 +279,8 @@ class Controller_Mtg extends Controller
 	{
 		$this->sidebar_template = 'portfolio';
 		$this->q = Flight::request()->query->q;
+		if ( ! $this->oxuser) 
+				$this->content .= Flight::textile(I18n::__('mtg_login_to_see_details'));
 		$this->getOxidContent(Flight::get('language'));
 		$this->render();
 	}
