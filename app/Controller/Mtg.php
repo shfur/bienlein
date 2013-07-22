@@ -322,6 +322,26 @@ class Controller_Mtg extends Controller
 	}
 	
 	/**
+	 * Displays a news detail page.
+	 *
+	 * @param string $news_id
+	 */
+	public function newsDetail($news_id)
+	{
+		$this->sidebar_template = 'pdetaillegend';
+		$news = R::load('news', $news_id);
+		$this->page = R::dispense('page');
+		$this->page->name = htmlspecialchars(strip_tags($news->name));
+		ob_start();
+		Flight::render('mtg/newsdetail', array(
+			'news' => $news
+		));
+		$this->content = ob_get_contents();
+		ob_end_clean();
+		$this->render();
+	}
+	
+	/**
 	 * Send a product pdf to the client.
 	 */
 	public function download()

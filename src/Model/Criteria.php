@@ -50,6 +50,7 @@ class Model_Criteria extends Model
          'number' => array('eq', 'gt', 'lt', 'neq'),
          'date' => array('eq', 'gt', 'lt', 'neq'),
          'time' => array('eq', 'gt', 'lt', 'neq'),
+		 'datetime' => array('eq', 'gt', 'lt', 'neq'),
          'email' => array('bw', 'ew', 'eq', 'neq', 'like', 'notlike'),
          'textarea' => array('bw', 'ew', 'eq', 'neq', 'like', 'notlike'),
          'in' => array('in'),

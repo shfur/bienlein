@@ -199,6 +199,14 @@ Flight::route('(/[a-z]{2})/portfolio/@product:[a-z0-9]{32}', function($oxartid) 
 });
 
 /**
+ * Route to MTG news detail page.
+ */
+Flight::route('(/[a-z]{2})/news/@id:[0-9]', function($news_id) {
+	$mtgController = new Controller_Mtg('newsdetail');
+	$mtgController->newsDetail($news_id);
+});
+
+/**
  * Route to our MTG pages.
  */
 Flight::route('(/[a-z]{2})/(@location)', function($location) {

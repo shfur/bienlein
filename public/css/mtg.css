@@ -499,21 +499,24 @@ header.master h2 {
 #legal .content,
 #sitemap .content,
 #imprint .content,
-#productdetail .content {
+#productdetail .content,
+#newsdetail .content {
     width: 960px;
     margin: 0 auto;
     padding: 0;
     float: none;
 }
 
-#productdetail .content {
+#productdetail .content,
+#newsdetail .content {
 	background-color: white;
 	width: 770px;
 	padding: 10px;
 	position: relative;
 }
 
-#productdetail .content::before {
+#productdetail .content::before,
+#newsdetail .content::before {
 	position: absolute;
 	top: -25px;
 	left: 0;
@@ -522,7 +525,8 @@ header.master h2 {
 	height: 25px;
 }
 
-#productdetail .content::after {
+#productdetail .content::after,
+#newsdetail .content::after {
 	position: absolute;
 	bottom: -23px;
 	left: 0;
@@ -564,7 +568,8 @@ a.close-details {
 #legal .sidebar,
 #sitemap .sidebar,
 #imprint .sidebar,
-#productdetail .sidebar {
+#productdetail .sidebar,
+#newsdetail .sidebar {
 	display: none;
 }
 
