@@ -29,7 +29,7 @@ article, aside, figure, footer, header, hgroup, nav, section {display: block;}
    If this default setting for images is causing issues, you might want to replace it with a .responsive class instead. */
 img,
 object,
-embed {max-width: 100%;}
+embed {/*max-width: 100%;*/}
 
 /* force a vertical scrollbar to prevent a jumpy page */
 html {overflow-y: scroll;}
@@ -689,6 +689,20 @@ a.close-details {
     vertical-align: middle;
     font-size: 16px;
 }
+.content td.pimg {
+	vertical-align: top;
+	padding-top: 3px;
+	background-image: url(/img/mtg/mtg-icon-lupe.png);
+	background-position: right bottom;
+	background-repeat: no-repeat;
+}
+div.cage {
+	position: relative;
+}
+img.resizable {
+	position: absolute;
+	cursor:pointer;
+}
 
 /* q */
 input#q {
@@ -768,7 +782,8 @@ input#q {
 	background: url(/img/mtg/mtg-icon-login.jpg) right center no-repeat;
 }
 
-form#contact {
+form#contact,
+div#thankyou {
 	position: absolute;
 	top: 0;
 	left: 1em;
@@ -1147,6 +1162,10 @@ form {
 }
 form div.row {
     margin-bottom: 0.5em;
+}
+
+div.row.error label {
+	color: red;
 }
 
 fieldset {

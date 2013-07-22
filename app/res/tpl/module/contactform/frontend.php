@@ -11,9 +11,15 @@ if (Flight::request()->method == 'POST'):
 		$record = R::graph(Flight::request()->data->dialog, true);
 		R::store($record);
 		if ($record->mail()) {
-			error_log('Mail was send');
+			//error_log('Mail was send');
 			//say thanks and do not show form again.
 			//better redirect to somewhere?
+			?>
+			<div id="thankyou">
+			<?php echo Flight::textile(I18n::__('mtg_contact_thankyou')) ?>
+			</div>
+			<?php
+			return true;
 		}
 	} catch (Exception $e) {
 		//error
@@ -198,5 +204,5 @@ endif
 			type="submit"
 			name="submit"
 			value="<?php echo I18n::__('mtg_contact_submit') ?>" />
-	</div
+	</div>
 </form>

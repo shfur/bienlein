@@ -39,6 +39,15 @@
 		
 		<div class="row">
 			<span class="span3 attr">
+				<?php echo I18n::__('mtg_th_category') ?>
+			</span>
+			<span class="span9 val">
+				<?php echo ($article['cat_title']) ?>
+			</span>
+		</div>
+		
+		<div class="row">
+			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_package') ?>
 			</span>
 			<span class="span9 val">

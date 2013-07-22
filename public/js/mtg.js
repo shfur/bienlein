@@ -29,6 +29,17 @@ $(document).ready(function() {
 		e.preventDefault();
 		$(window).scrollTo('0px', 800);
 	});
+	
+	$("img.resizable").hover(
+		function() {
+			$(this).addClass("fixed");
+			$(this).animate({width: "240px"}, 1000);
+		},
+		function() {
+			$(this).removeClass("fixed");
+			$(this).animate({width: "60px"}, 1000);
+		}
+	);
 
 	/**
 	 * @see http://www.basic-slider.com

@@ -170,7 +170,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td class="pimg"><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" height="auto" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
 	
 	/**
 	 * Holds the template for an oxid article when user is logged in.
@@ -179,7 +179,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><img src="%5$s" alt="%2$s" width="60px" height="auto" /></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td><td>%11$s</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td class="pimg"><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" height="auto" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td><td>%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
@@ -478,11 +478,14 @@ SQL;
 			manu.oxicon AS manu_icon,
 			manu.oxtitle AS manu_title,
 			manu.oxshortdesc AS manu_shortdesc,
-			artextend.oxlongdesc AS OXLONGDESC
+			artextend.oxlongdesc AS OXLONGDESC,
+			mycat.oxtitle AS cat_title
 		FROM
 			oxv_oxarticles_%1\$s AS art
 		LEFT JOIN
 			oxobject2category AS cat ON cat.oxobjectid = art.oxid
+		LEFT JOIN
+			oxv_oxcategories_%1\$s AS mycat ON mycat.oxid = cat.oxcatnid
 		LEFT JOIN
 			oxv_oxmanufacturers_%1\$s AS manu ON manu.oxid = art.oxmanufacturerid
 		LEFT JOIN
