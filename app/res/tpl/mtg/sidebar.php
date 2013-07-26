@@ -4,7 +4,8 @@
 		<a
 			id="scrolltop"
 			href="#top"
-			class="ir">
+			class="ir"
+			title="<?php echo I18n::__('mtg_scroll_top_title') ?>">
 			<?php echo I18n::__('mtg_scroll_top') ?>
 		</a>
     </div>

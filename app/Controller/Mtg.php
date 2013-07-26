@@ -170,7 +170,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td class="pimg"><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" height="auto" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td></tr>';
 	
 	/**
 	 * Holds the template for an oxid article when user is logged in.
@@ -179,7 +179,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td class="pimg"><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" height="auto" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" height="auto" /></td><td>%4$s</td><td>%11$s</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td>%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
@@ -484,7 +484,7 @@ SQL;
 	}
 	
 	/**
-	 * Returns an array with one article found by oxseo::url.
+	 * Returns an array with one article found by id.
 	 *
 	 * @param string $oxartid
 	 * @param string $lang
@@ -627,6 +627,13 @@ SQL;
 				echo '</div>'."\n";
 				$content = ob_get_contents();
 				ob_end_clean();
+				if (($slice->css || $slice->class) && ! $slice->tag) {
+                    //make it a div tag if we have css or class
+                    $slice->tag = 'div';
+                }
+                if ($slice->tag) {
+                    $content = sprintf('<%1$s class="%2$s" style="%3$s">'.$content.'</%1$s>', $slice->tag, $slice->class, $slice->css)."\n";
+                }
 				$this->content .= $content;
 			}
 		}

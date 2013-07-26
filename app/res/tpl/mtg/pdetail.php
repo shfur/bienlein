@@ -9,7 +9,7 @@
 		<?php for ($i=1;$i<=12;$i++): ?>
 			<?php if (isset($article['OXPIC'.$i]) && $article['OXPIC'.$i]): ?>
 				<img
-					src="<?php echo Flight::get('oxid_path_art').$article['OXPIC'.$i] ?>"
+					src="<?php echo Flight::get('oxid_path_pics').$i.'/'.$article['OXPIC'.$i] ?>"
 					alt="<?php echo htmlspecialchars($article['OXTITLE']) ?>"
 					title=""
 					width="100%"
@@ -105,7 +105,7 @@
 				<?php echo I18n::__('mtg_th_longdesc') ?>
 			</span><br />
 			<span class="val">
-				<?php echo htmlspecialchars($article['OXLONGDESC']) ?>
+				<?php echo ($article['OXLONGDESC']) ?>
 			</span>
 		</div>
 		

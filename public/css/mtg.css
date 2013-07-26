@@ -400,7 +400,7 @@ body {
     width: 1000px;
     margin: 0 auto;
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 div.main {
@@ -430,7 +430,7 @@ header.master h1 a {
 }
 
 /* the logo is big on the home screen */
-#home header.master h1 a {
+body#body-home header.master h1 a {
     background: url(/img/mtg/mtg-header-home.jpg) no-repeat;
     width: 1000px;
     height: 350px;
@@ -465,11 +465,11 @@ header.master h2 {
 .sidebar a#scrolltop {
 	position: absolute;
 	bottom: -80px;
-	right: -913px;
+	right: -836px;
 	z-index:10;
 	display:none;
-	width: 167px;
-	height: 28px;
+	width: 37px;
+	height: 35px;
 	background: url(/img/mtg/mtg-icon-scrolltop.png) center center no-repeat;
 }
 .sidebar a#scrolltop.visible {
@@ -477,46 +477,46 @@ header.master h2 {
 }
 
 /* other way round on home/news */
-#home .content {
+body#body-home .content {
     padding-right: 0;
     padding-left: 23px;
     float: left;
 	width: 700px;
 }
 
-#home .sidebar {
+body#body-home .sidebar {
     float: right;
 	width: 242px;
 }
 
-#home .sidebar a {
+body#body-home .sidebar a {
 	color: rgb(210, 35, 42);
 }
 
 /* on other pages content takes full advantage */
 
-#privacy .content,
-#legal .content,
-#sitemap .content,
-#imprint .content,
-#productdetail .content,
-#newsdetail .content {
+body#body-privacy .content,
+body#body-legal .content,
+body#body-sitemap .content,
+body#body-imprint .content,
+body#body-productdetail .content,
+body#body-newsdetail .content {
     width: 960px;
     margin: 0 auto;
     padding: 0;
     float: none;
 }
 
-#productdetail .content,
-#newsdetail .content {
+body#body-productdetail .content,
+body#body-newsdetail .content {
 	background-color: white;
 	width: 770px;
 	padding: 10px;
 	position: relative;
 }
 
-#productdetail .content::before,
-#newsdetail .content::before {
+body#body-productdetail .content::before,
+body#body-newsdetail .content::before {
 	position: absolute;
 	top: -25px;
 	left: 0;
@@ -525,8 +525,8 @@ header.master h2 {
 	height: 25px;
 }
 
-#productdetail .content::after,
-#newsdetail .content::after {
+body#body-productdetail .content::after,
+body#body-newsdetail .content::after {
 	position: absolute;
 	bottom: -23px;
 	left: 0;
@@ -564,12 +564,12 @@ a.close-details {
 	background: url(/img/mtg/mtg-icon-mikrowelle.png) center left no-repeat;
 }
 
-#privacy .sidebar,
-#legal .sidebar,
-#sitemap .sidebar,
-#imprint .sidebar,
-#productdetail .sidebar,
-#newsdetail .sidebar {
+body#body-privacy .sidebar,
+body#body-legal .sidebar,
+body#body-sitemap .sidebar,
+body#body-imprint .sidebar,
+body#body-productdetail .sidebar,
+body#body-newsdetail .sidebar {
 	display: none;
 }
 
@@ -598,6 +598,18 @@ a.close-details {
 	color: rgb(210, 35, 42);
 }
 
+.content article .whitetext h1,
+.content article .whitetext h2,
+.content article .whitetext h3,
+.content article .whitetext h4,
+.content article .whitetext h5,
+.content article .whitetext h6,
+.content article .whitetext p {
+	color: white;
+}
+
+
+.content article h1,
 .content article h2 {
 	text-transform: uppercase;
 	font-size: 18px;
@@ -693,25 +705,26 @@ a.close-details {
     padding: 1em 0.25em 1em 0.25em;
     vertical-align: middle;
     font-size: 16px;
-}
-.content td.pimg {
-	vertical-align: top;
-	padding-top: 3px;
-	background-image: url(/img/mtg/mtg-icon-lupe.png);
-	background-position: right bottom;
-	background-repeat: no-repeat;
+	position: relative;
 }
 div.cage {
 	position: relative;
-}
-img.resizable {
-	position: absolute;
+	background:url(/img/mtg/mtg-icon-lupe.png) bottom right no-repeat;
+	padding-bottom: 20px;
 	cursor:pointer;
+}
+img.resizable.resize {
+	position: relative;
+	top:0;
+	left: -90px;
+	width: 240px;
+	z-index:1;
 }
 
 /* q */
 input#q {
 	margin: 0.5em 0;
+	width: 90%;
 }
 
 /* login */
@@ -798,12 +811,16 @@ div#thankyou {
 	color: gray;
 }
 
+div#thankyou {
+	top: 30px;
+}
+
 form#contact legend {
 	display: none;
 }
 
 form#contact .row {
-	margin-bottom: 1.666em;
+	margin-bottom: 0.8em;
 }
 
 form#contact input[type=submit] {
@@ -923,21 +940,21 @@ ul.main a:hover {
 }
 
 /* home nav hover and active */
-body#home ul.main li.domain-17 a,
+body#body-home ul.main li.domain-17 a,
 ul.main li.domain-17 a:hover {
 	background: url(/img/mtg/mtg-nav-home.png) no-repeat;
     color: rgb(205, 7, 30);
 }
 
 /* company nav hover and active */
-body#company ul.main li.domain-18 a,
+body#body-company ul.main li.domain-18 a,
 ul.main li.domain-18 a:hover {
 	background: url(/img/mtg/mtg-nav-company.png) no-repeat;
     color: rgb(205, 7, 30);
 }
 
 /* contact nav hover and active */
-body#contact ul.main li.domain-19 a,
+body#body-contact ul.main li.domain-19 a,
 ul.main li.domain-19 a:hover {
 	background: url(/img/mtg/mtg-nav-contact.png) no-repeat;
     color: rgb(205, 7, 30);
@@ -955,14 +972,14 @@ ul.main li.domain-20 a {
     padding: 0;
 }
 
-body#portfolio ul.main li.domain-20 a,
+body#body-portfolio ul.main li.domain-20 a,
 ul.main li.domain-20 a:hover {
 	background: url(/img/mtg/mtg-button-sortiment-a.png);
 	color: rgb(205, 7, 30);
 }
 
 /* contact nav hover and active */
-body#people ul.main li.domain-25 a,
+body#body-people ul.main li.domain-25 a,
 ul.main li.domain-25 a:hover {
 	background: url(/img/mtg/mtg-nav-team.png) no-repeat;
     color: rgb(205, 7, 30);
@@ -1051,18 +1068,19 @@ ul.main li a {
 }
 
 /* special tiles for extra pages: privacy, legal, etc. */
-#privacy .tiles,
-#legal .tiles,
-#sitemap .tiles,
-#imprint .tiles {
+body#body-privacy .tiles,
+body#body-legal .tiles,
+body#body-sitemap .tiles,
+body#body-imprint .tiles {
 	background-color: rgb(238, 247, 234);
 	width: 473px;
 	padding: 10px;
+	margin: 0 auto;
 }
-#privacy .tiles::before,
-#legal .tiles::before,
-#sitemap .tiles::before,
-#imprint .tiles::before {
+body#body-privacy .tiles::before,
+body#body-legal .tiles::before,
+body#body-sitemap .tiles::before,
+body#body-imprint .tiles::before {
 	position: absolute;
 	top: -25px;
 	left: 0;
@@ -1071,10 +1089,10 @@ ul.main li a {
 	height: 25px;
 }
 
-#privacy .tiles::after,
-#legal .tiles::after,
-#sitemap .tiles::after,
-#imprint .tiles::after {
+body#body-privacy .tiles::after,
+body#body-legal .tiles::after,
+body#body-sitemap .tiles::after,
+body#body-imprint .tiles::after {
 	position: absolute;
 	bottom: -23px;
 	left: 0;

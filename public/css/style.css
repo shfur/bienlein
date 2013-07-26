@@ -497,13 +497,13 @@ article header {
     position: relative;
 }
 
-article header h1,
-article header h2,
-article header h3,
-article header h4,
-article header h5,
-article header h6,
-article > p {
+article.main > header h1,
+article.main > header h2,
+article.main > header h3,
+article.main > header h4,
+article.main > header h5,
+article.main > header h6,
+article.main > p {
     padding: 0.5em 1em;
     margin: 0;
 }
@@ -657,7 +657,6 @@ ul.pagination-navigation a {
 
 /* Forms */
 form {
-    padding: 0.5em 1em;
 }
 
 form.inline,
@@ -675,10 +674,31 @@ form.page-add {
     padding: 0;
 }
 
-.page-meta {
+.page-meta,
+.preview {
     border-left: 1px solid red;
     margin-left: -0.5em;
     padding-left: 1em;
+}
+.preview {
+    border-left: 1px solid silver;
+}
+
+.page-meta .buttons {
+    padding-left: 1em;
+}
+
+a.toggle-options {
+    display: block;
+    padding-left: 16px;
+    background: url(/img/right.png) left center no-repeat;
+    text-decoration: none;
+    margin-left: -0.8em;
+    margin-bottom: 0.5em;
+    
+}
+a.toggle-options.active {
+    background: url(/img/desc.png) left center no-repeat;
 }
 
 .panel.page-add input.fn.fn-page-name {
@@ -726,6 +746,7 @@ label {
 input[type=text],
 input[type=password],
 input[type=email],
+input[type=tel],
 input[type=url],
 input[type=number],
 input[type=date]
@@ -741,6 +762,10 @@ textarea {
     text-align: right;
 }
 
+.buttons input[type=submit].danger {
+    float: left;
+}
+
 .panel legend,
 .inline legend,
 .inline-add legend {
@@ -748,8 +773,9 @@ textarea {
 }
 
 .panel {
-    padding-top: 1em;
+    padding: 0.5em 1em;
     border-top: 1px solid silver;
+    position: relative;
 }
 
 .panel .row {
@@ -757,8 +783,11 @@ textarea {
     margin-bottom: 1em;
 }
 
-.panel .row.last,
-.panel .row:first-child {
+.panel .row.nomargins {
+    margin: 0;
+}
+
+.panel .row.last {
     margin-bottom: 0;
 }
 
@@ -767,6 +796,7 @@ textarea {
 }
 
 .tabs {
+    position: relative;
     border-bottom: 1px solid gray;
     margin-bottom: 1em;
     height: 1.5em;
@@ -868,7 +898,7 @@ select.filter-select {
     margin-left: 27.666%;
 }
 
-.panel .autowidth {
+.panel input.autowidth {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
@@ -1192,6 +1222,9 @@ input[type=submit].danger {
 .slice-container.active {
     border-left: 1px solid red;
 }
+.slice-container.ui-state-highlight {
+    border-left: 1px solid green;
+}
 
 p.sitemap-choose,
 p.page-choose {
@@ -1200,6 +1233,13 @@ p.page-choose {
     color: gray;
     text-align: center;
     padding-top: 8em;
+}
+
+img.gravatar-account {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    float: left;
 }
 
 /* Rounded gravatar: A background-image tag in html */
@@ -1239,10 +1279,15 @@ p.page-choose {
 	-moz-border-radius: 8px;    
 }
 
+.no-shadow {
+    -webkit-box-shadow: none;
+}
+
 /* Mix, rip and burn some of the above together */
 
 /* within a dialog a errornous input field will be erdbeer colored */
-.panel div.row.error label {
+.panel div.row.error label,
+.panel label.error {
     color: #7a0b0a;
 }
 
