@@ -432,7 +432,7 @@ class Controller_Mtg extends Controller
 							Flight::get('oxid_path_manu').$article['manu_icon'],
 							$article['OXSHORTDESC'],
 							Flight::get('oxid_path_art').$article['OXPIC1'],
-							$attributes['Größe'],
+							'',//was Größe
 							$attributes['Gebinde'],
 							$article['manu_title'],
 							$attributes['TG/TK'],

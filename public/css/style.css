@@ -497,6 +497,7 @@ article header {
     position: relative;
 }
 
+article header h1,
 article.main > header h1,
 article.main > header h2,
 article.main > header h3,
