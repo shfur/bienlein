@@ -168,7 +168,7 @@ endif
 			<div class="span9">
 				<input
 					id="contact-phone"
-					type="phone"
+					type="text"
 					name="dialog[phone]"
 					value="<?php echo htmlspecialchars($record->phone) ?>" />
 			</div>
@@ -180,7 +180,7 @@ endif
 			<div class="span9">
 				<input
 					id="contact-fax"
-					type="phone"
+					type="text"
 					name="dialog[fax]"
 					value="<?php echo htmlspecialchars($record->fax) ?>" />
 			</div>
