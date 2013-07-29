@@ -5,14 +5,14 @@
 	<?php echo I18n::__('mtg_back_to_list') ?>
 </a>
 <div class="row">
-	<div class="span6">
+	<div class="span6 pimages">
 		<?php for ($i=1;$i<=12;$i++): ?>
 			<?php if (isset($article['OXPIC'.$i]) && $article['OXPIC'.$i]): ?>
 				<img
 					src="<?php echo Flight::get('oxid_path_pics').$i.'/'.$article['OXPIC'.$i] ?>"
 					alt="<?php echo htmlspecialchars($article['OXTITLE']) ?>"
 					title=""
-					width="100%"
+					width="95%"
 					height="auto" />
 			<?php endif ?>
 		<?php endfor; ?>
@@ -46,6 +46,7 @@
 			</span>
 		</div>
 		
+		<?php if (isset($attributes['Gebinde'])): ?>
 		<div class="row">
 			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_package') ?>
@@ -54,7 +55,9 @@
 				<?php echo ($attributes['Gebinde']) ?>
 			</span>
 		</div>
+		<?php endif ?>
 		
+		<?php if (isset($attributes['TG/TK'])): ?>
 		<div class="row">
 			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_tgtk') ?>
@@ -63,6 +66,7 @@
 				<?php echo htmlspecialchars($attributes['TG/TK']) ?>
 			</span>
 		</div>
+		<?php endif ?>
 		
 		<div class="row">
 			<span class="span3 attr">
@@ -82,7 +86,7 @@
 		
 		<div class="row">
 			<span class="span3 attr">
-				<?php echo I18n::__('mtg_th_ls') ?>
+				<?php echo I18n::__('mtg_pdetail_th_ls') ?>
 			</span>
 			<span
 				class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
@@ -104,11 +108,12 @@
 			<span class="attr">
 				<?php echo I18n::__('mtg_th_longdesc') ?>
 			</span><br />
-			<span class="val">
+			<p class="val">
 				<?php echo ($article['OXLONGDESC']) ?>
-			</span>
+			</p>
 		</div>
 		
+		<?php if (isset($attributes['Mindesthaltbarkeit'])): ?>
 		<div class="row">
 			<span class="attr">
 				<?php echo I18n::__('mtg_th_mhd') ?>
@@ -117,8 +122,9 @@
 				<?php echo htmlspecialchars($attributes['Mindesthaltbarkeit']) ?>
 			</span>
 		</div>
+		<?php endif ?>
 		
-		<?php $preps = explode(' ** ', $attributes['Zubereitung']) ?>
+		<?php $preps = array('Backofen', 'Konvektomat', 'Friteuse', 'Mikrowelle') ?>
 		
 		<div class="row">
 			<span class="attr">
@@ -126,7 +132,12 @@
 			</span><br />
 			<span class="val">
 				<?php foreach ($preps as $prep): ?>
-					<?php echo Flight::textile($prep) ?>
+					<?php $prep_name = 'Zub-'.$prep ?>
+					<?php if (isset($attributes[$prep_name])): ?>
+					<p title="<?php echo I18n::__('mtg_zubereitung_title_'.strtolower($prep)) ?>" class="zub <?php echo strtolower($prep) ?>">
+						<?php echo $attributes[$prep_name] ?>
+					</p>
+					<?php endif ?>
 				<?php endforeach ?>
 			</span>
 		</div>
@@ -137,7 +148,7 @@
 			<?php $i = 0 ?>
 			<?php foreach ($files as $n => $file): ?>
 			<?php $i++ ?>
-				<a href="/mtg/download/?file=<?php echo urlencode($file['OXFILENAME']) ?>"><?php echo I18n::__('mtg_detail_download_'.$i) ?></a><br />
+				<a href="/mtg/download/?file=<?php echo urlencode($file['OXFILENAME']) ?>"><?php echo $file['OXFILENAME'] ?></a><br />
 			<?php endforeach ?>
 				</span>
 			</div>

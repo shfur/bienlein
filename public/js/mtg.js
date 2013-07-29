@@ -1,5 +1,7 @@
 // docked state
 var docked = false;
+// check for touch device
+var is_touch_device = 'ontouchstart' in document.documentElement;
 // offset for scrollnav
 var offset = 150;
 
@@ -75,20 +77,21 @@ $(document).ready(function() {
             .parent().removeClass("active")
             .end().filter("[href=#"+id+"]").parent().addClass("active");                  
     });
-    
-    $(window).scroll(function() {
-        if ( ! docked && ($(window).scrollTop() > 420)) {
-    	    // if yes, add “fixed” class to the <nav>
-       	    // add padding top to the #content  (value is same as the height of the nav)
-       	    $('.navscroll').addClass('fixed');
-			$("a#scrolltop").addClass('visible');
-    		docked = true;
-    	} else if ($(window).scrollTop() < 420) {
-    		$('.navscroll').removeClass('fixed');
-			$("a#scrolltop").removeClass('visible');
-    		docked = false;
-    	}
-    });
+  	if ( ! is_touch_device) {
+	    $(window).scroll(function() {
+	        if ( ! docked && ($(window).scrollTop() > 420)) {
+	    	    // if yes, add “fixed” class to the <nav>
+	       	    // add padding top to the #content  (value is same as the height of the nav)
+	       	    $('.navscroll').addClass('fixed');
+				$("a#scrolltop").addClass('visible');
+	    		docked = true;
+	    	} else if ($(window).scrollTop() < 420) {
+	    		$('.navscroll').removeClass('fixed');
+				$("a#scrolltop").removeClass('visible');
+	    		docked = false;
+	    	}
+	    });
+	}
     
     $('.navscroll a').click(function (e) {
         $(window).scrollTo($(this).attr('href'), 800, { offset: {top: 0, left: 0} });

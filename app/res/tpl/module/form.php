@@ -20,7 +20,7 @@
         <input type="hidden" name="dialog[type]" value="<?php echo $record->getMeta('type') ?>" />
         <input type="hidden" name="dialog[id]" value="<?php echo $record->getId() ?>" />
         <input type="hidden" name="dialog[region_id]" value="<?php echo $record->region_id ?>" />
-        <input type="hidden" name="dialog[sequence]" value="<?php echo $record->sequence ?>" />
+        <input type="hidden" name="dialog[sequence]" value="<?php echo (int)$record->sequence ?>" />
         <input type="hidden" name="dialog[module]" value="<?php echo $record->module ?>" />
         <input type="hidden" name="dialog[page_id]" value="<?php echo $record->page_id ?>" />
     </div>

@@ -551,8 +551,8 @@ a.close-details {
 .content p.mikrowelle {
 	padding-left: 64px;
 	background: url(/img/mtg/mtg-icon-backofen.png) center left no-repeat;
-	min-height: 64px;
-	line-height: 64px;
+	min-height: 50px;
+	line-height: 50px;
 }
 .content p.konvektomat {
 	background: url(/img/mtg/mtg-icon-konvektomat.png) center left no-repeat;
@@ -686,7 +686,7 @@ body#body-newsdetail .sidebar {
 .content table thead th {
     color: white;
     letter-spacing: 0px;
-    text-align: left;
+    text-align: center;
     font-size: 16px;
 	font-weight: normal;
     padding: 0.5em 0.25em 0 0.25em;
@@ -709,8 +709,8 @@ body#body-newsdetail .sidebar {
 }
 div.cage {
 	position: relative;
-	background:url(/img/mtg/mtg-icon-lupe.png) bottom right no-repeat;
-	padding-bottom: 20px;
+	/*background:url(/img/mtg/mtg-icon-lupe.png) bottom right no-repeat;
+	padding-bottom: 20px;*/
 	cursor:pointer;
 }
 img.resizable.resize {
@@ -1132,9 +1132,9 @@ th.fn-product { width: 170px; }
 th.fn-brand { width: 76px; }
 th.fn-usage { width: 180px; }
 th.fn-thumb { width: 60px; }
-th.fn-tgtk { width: 40px; }
+th.fn-tgtk { width: 35px; }
 th.fn-package { }
-th.fn-avail {}
+th.fn-avail { width: 40px; }
 	
 .avail {
 	display: block;
@@ -1156,7 +1156,37 @@ th.fn-avail {}
 }
 
 .pdetails .row {
-	margin-bottom: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	margin-left: -1em;
+	padding-left: 1em;
+	border-left: 1px solid gray;
+}
+
+.pdetails .row:nth-child(odd) {
+	background-color: rgb(238, 244, 229);
+}
+
+.pdetails span.val {
+	color: rgb(128, 130, 133);
+}
+.pdetails p.val {
+	padding-right: 1em;
+	line-height:1;
+}
+
+.pdetails p.zub {
+	margin-bottom:0;
+}
+
+.pimages img {
+	padding-bottom: 59px;
+	background: url(/img/mtg/mtg-pimg-abstand.png) center bottom no-repeat;
+}
+
+.navscroll a.portfolio-as-pdf {
+	display: block;
+	margin-top: 2em;
 }
 
 /* using local fonts? make sure to read up on Paul Irish's 
