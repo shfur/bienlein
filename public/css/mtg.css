@@ -1134,7 +1134,7 @@ th.fn-usage { width: 180px; }
 th.fn-thumb { width: 60px; }
 th.fn-tgtk { width: 35px; }
 th.fn-package { }
-th.fn-avail { width: 40px; }
+th.fn-avail { width: 30px; }
 	
 .avail {
 	display: block;
@@ -1155,16 +1155,24 @@ th.fn-avail { width: 40px; }
 	color: rgb(205, 7, 30);
 }
 
-.pdetails .row {
-	padding-top: 1em;
-	padding-bottom: 1em;
-	margin-left: -1em;
-	padding-left: 1em;
+.pdetails {
 	border-left: 1px solid gray;
+}
+
+.pdetails .row {
+	width: 93%;
+	padding: 1em 0 1em 1%;
+	margin-left: 5%;
 }
 
 .pdetails .row:nth-child(odd) {
 	background-color: rgb(238, 244, 229);
+}
+
+.pdetails h1 {
+	color: rgb(128, 130, 133);
+	font-size: 2em;
+	font-weight: normal;
 }
 
 .pdetails span.val {
@@ -1172,7 +1180,6 @@ th.fn-avail { width: 40px; }
 }
 .pdetails p.val {
 	padding-right: 1em;
-	line-height:1;
 }
 
 .pdetails p.zub {
@@ -1187,6 +1194,12 @@ th.fn-avail { width: 40px; }
 .navscroll a.portfolio-as-pdf {
 	display: block;
 	margin-top: 2em;
+}
+
+#powerTip {
+	position: absolute;
+	display: none;
+	z-index: 234444;
 }
 
 /* using local fonts? make sure to read up on Paul Irish's 

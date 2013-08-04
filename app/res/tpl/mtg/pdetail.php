@@ -20,20 +20,17 @@
 	<div class="span6 pdetails">
 		
 		<div class="row">
+			<h1 class="span12">
+				<?php echo ($article['OXTITLE']) ?>
+			</h1>
+		</div>
+		
+		<div class="row">
 			<span class="span3 attr">
 				<?php echo I18n::__('mtg_th_artno') ?>
 			</span>
 			<span class="span9 val">
 				<?php echo htmlspecialchars($article['OXARTNUM']) ?>
-			</span>
-		</div>
-		
-		<div class="row">
-			<span class="span3 attr">
-				<?php echo I18n::__('mtg_th_product') ?>
-			</span>
-			<span class="span9 val">
-				<?php echo ($article['OXTITLE']) ?>
 			</span>
 		</div>
 		
@@ -89,11 +86,22 @@
 				<?php echo I18n::__('mtg_pdetail_th_ls') ?>
 			</span>
 			<span
-				class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
+				class="tips-avail span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
 				title="<?php echo I18n::__('mtg_avail_'.$article['OXSTOCKFLAG']) ?>">
 				<?php echo htmlspecialchars($article['OXSTOCKFLAG']) ?>
 			</span>
 		</div>
+		
+		<?php if (isset($attributes['Mindesthaltbarkeit'])): ?>
+		<div class="row">
+			<span class="span3 attr">
+				<?php echo I18n::__('mtg_th_mhd') ?>
+			</span>
+			<span class="span9 val">
+				<?php echo htmlspecialchars($attributes['Mindesthaltbarkeit']) ?>
+			</span>
+		</div>
+		<?php endif ?>
 		
 		<div class="row">
 			<span class="attr">
@@ -113,38 +121,33 @@
 			</p>
 		</div>
 		
-		<?php if (isset($attributes['Mindesthaltbarkeit'])): ?>
-		<div class="row">
-			<span class="attr">
-				<?php echo I18n::__('mtg_th_mhd') ?>
-			</span>
-			<span class="val">
-				<?php echo htmlspecialchars($attributes['Mindesthaltbarkeit']) ?>
-			</span>
-		</div>
-		<?php endif ?>
 		
 		<?php $preps = array('Backofen', 'Konvektomat', 'Friteuse', 'Mikrowelle') ?>
+		<?php if (isset($attributes['Zub-Backofen']) || isset($attributes['Zub-Konvektomat']) || isset($attributes['Zub-Friteuse']) || isset($attributes['Zub-Mikrowelle'])): ?>
+			
+			<div class="row">
+				<span class="attr">
+					<?php echo I18n::__('mtg_th_preparation') ?>
+				</span><br />
+				<span class="val">
+					<?php foreach ($preps as $prep): ?>
+						<?php $prep_name = 'Zub-'.$prep ?>
+						<?php if (isset($attributes[$prep_name])): ?>
+						<p title="<?php echo I18n::__('mtg_zubereitung_title_'.strtolower($prep)) ?>" class="tips-zub zub <?php echo strtolower($prep) ?>">
+							<?php echo $attributes[$prep_name] ?>
+						</p>
+						<?php endif ?>
+					<?php endforeach ?>
+				</span>
+			</div>
+			
+		<?php endif ?>
 		
-		<div class="row">
-			<span class="attr">
-				<?php echo I18n::__('mtg_th_preparation') ?>
-			</span><br />
-			<span class="val">
-				<?php foreach ($preps as $prep): ?>
-					<?php $prep_name = 'Zub-'.$prep ?>
-					<?php if (isset($attributes[$prep_name])): ?>
-					<p title="<?php echo I18n::__('mtg_zubereitung_title_'.strtolower($prep)) ?>" class="zub <?php echo strtolower($prep) ?>">
-						<?php echo $attributes[$prep_name] ?>
-					</p>
-					<?php endif ?>
-				<?php endforeach ?>
-			</span>
-		</div>
+		
 		<?php if ( ! empty($files)): ?>
 			<div class="row">
 				<span class="attr"><?php echo I18n::__('mtg_th_downloads') ?></span><br />
-				<span>
+				<span class="val">
 			<?php $i = 0 ?>
 			<?php foreach ($files as $n => $file): ?>
 			<?php $i++ ?>

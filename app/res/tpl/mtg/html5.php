@@ -90,5 +90,6 @@
 		<script src="/js/mtg.js"></script>
 		<script src="/js/jquery.scrollTo-1.4.3.1-min.js"></script>
 		<script src="/js/bjqs-1.3.min.js"></script>
+		<script src="/js/jquery.powertip.min.js"></script>
 	</body>
 </html>
