@@ -376,7 +376,7 @@ pre .tag {
    ========================================================================== */
 
 /* Set your font stuff for the document here */
-body {font: 16px/1 "DIN1451EF-EngNeu", Helvetica, Arial, sans-serif;}
+body {font: 17px/1 "DIN1451EF-EngNeu", Helvetica, Arial, sans-serif;}
 
 
 /* Layout with 2-columns and footer sticking to the bottom */
@@ -1164,8 +1164,8 @@ th.fn-avail { width: 30px; }
 }
 
 .pdetails .row {
-	width: 93%;
-	padding: 1em 0 1em 1%;
+	width: 92%;
+	padding: 1em 0 1em 2%;
 	margin-left: 5%;
 }
 
