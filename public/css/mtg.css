@@ -1156,7 +1156,11 @@ th.fn-avail { width: 30px; }
 }
 
 .pdetails {
-	border-left: 1px solid gray;
+	/*border-left: 1px solid gray;*/
+}
+
+.details-divider {
+	background: url(/img/mtg/mtg-icon-line.png) top left repeat-y;
 }
 
 .pdetails .row {

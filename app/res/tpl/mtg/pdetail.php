@@ -4,7 +4,7 @@
 	onclick="history.go(-1); return false;">
 	<?php echo I18n::__('mtg_back_to_list') ?>
 </a>
-<div class="row">
+<div class="row details-divider">
 	<div class="span6 pimages">
 		<?php for ($i=1;$i<=12;$i++): ?>
 			<?php if (isset($article['OXPIC'.$i]) && $article['OXPIC'.$i]): ?>
