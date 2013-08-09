@@ -12,8 +12,7 @@
 					src="<?php echo Flight::get('oxid_path_pics').$i.'/'.$article['OXPIC'.$i] ?>"
 					alt="<?php echo htmlspecialchars($article['OXTITLE']) ?>"
 					title=""
-					width="95%"
-					height="auto" />
+					width="95%" />
 			<?php endif ?>
 		<?php endfor; ?>
 	</div>
@@ -75,9 +74,7 @@
 					src="<?php echo Flight::get('oxid_path_manu').$article['manu_icon'] ?>"
 					alt="<?php echo htmlspecialchars($article['manu_title']) ?>"
 					title=""
-					width="90"
-					height="auto" /><br />
-				<?php echo htmlspecialchars($article['manu_shortdesc']) ?>
+					width="90" />
 			</span>
 		</div>
 		

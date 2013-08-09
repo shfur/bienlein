@@ -612,7 +612,7 @@ body#body-newsdetail .sidebar {
 .content article h1,
 .content article h2 {
 	text-transform: uppercase;
-	font-size: 18px;
+	font-size: 20px;
 }
 .content article h3 {
 	font-size: 18px;
@@ -644,6 +644,11 @@ body#body-newsdetail .sidebar {
     color: rgb(128, 130, 133);
 }
 
+.content ul,
+.content ol {
+	line-height: 1.2;
+}
+
 .content article:first-child {
 	margin-bottom: 0;
 }
@@ -658,7 +663,6 @@ body#body-newsdetail .sidebar {
 .content article li {
 	padding-left: 1em;
 	text-indent: -0.7em;
-	line-height: 2em;
 }
 
 .content article li:before {
@@ -758,9 +762,10 @@ input#q {
 	color: white;
 }
 
+/* user name after oxid login in header */
 #account p#oxidaccount {
 	color: white;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 29px;
 	margin: 0;
 	padding: 0;
@@ -1220,7 +1225,7 @@ a:hover {color: rgb(210, 35, 42);}
 ::selection {background: #fcd700; color: #fff; text-shadow: none;} 
 
 /*	j.mp/webkit-tap-highlight-color */
-a:link {-webkit-tap-highlight-color: #fcd700;} 
+/*a:link {-webkit-tap-highlight-color: #fcd700;} */
 
 ins {background-color: #fcd700; color: #000; text-decoration: none;}
 mark {background-color: #fcd700; color: #000; font-style: italic; font-weight: bold;}
