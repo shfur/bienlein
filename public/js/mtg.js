@@ -27,7 +27,7 @@ $(document).ready(function() {
 	    $('a[href$=".pdf"]').attr('target', '_blank');
 	});
 	
-	//$(".tips-avail").data('powertip', '<img src="/img/mtg/mtg-over-verfuegbarkeit.png" width="150" height="111" alt="" />');
+	$(".tips-avail").data('powertip', '<img src="/img/mtg/mtg-over-verfuegbarkeit.png" width="150" height="111" alt="" />');
 	$(".tips-zub").data('powertip', '<img src="/img/mtg/mtg-over-zubereitung.png" width="200" height="203" alt="" />');
 	$(".tips-avail, .tips-zub").powerTip({
 		followMouse: true

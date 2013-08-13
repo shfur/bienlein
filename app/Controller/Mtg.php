@@ -163,7 +163,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail">%11$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail-list">%11$s</td></tr>';
 
 	/**
 	 * Holds the template for an oxid article when user is logged in.
@@ -172,7 +172,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail">%11$s</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail-list">%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
