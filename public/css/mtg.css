@@ -956,6 +956,11 @@ ul.main li.domain-17 a:hover {
 	background: url(/img/mtg/mtg-nav-home.png) no-repeat;
     color: rgb(205, 7, 30);
 }
+html[lang="en"] body#body-home ul.main li.domain-17 a,
+html[lang="en"] ul.main li.domain-17 a:hover {
+	background: url(/img/mtg/mtg-nav-home-eng.png) no-repeat;
+}
+
 
 /* company nav hover and active */
 body#body-company ul.main li.domain-18 a,
@@ -964,11 +969,21 @@ ul.main li.domain-18 a:hover {
     color: rgb(205, 7, 30);
 }
 
+html[lang="en"] body#body-company ul.main li.domain-18 a,
+html[lang="en"] ul.main li.domain-18 a:hover {
+	background: url(/img/mtg/mtg-nav-company-eng.png) no-repeat;
+}
+
 /* contact nav hover and active */
 body#body-contact ul.main li.domain-19 a,
 ul.main li.domain-19 a:hover {
 	background: url(/img/mtg/mtg-nav-contact.png) no-repeat;
     color: rgb(205, 7, 30);
+}
+
+html[lang="en"] body#body-contact ul.main li.domain-19 a,
+html[lang="en"] ul.main li.domain-19 a:hover {
+	background: url(/img/mtg/mtg-nav-contact-eng.png) no-repeat;
 }
 
 /* fancy sortiment menu entry */
@@ -1003,6 +1018,11 @@ body#body-people ul.main li.domain-25 a,
 ul.main li.domain-25 a:hover {
 	background: url(/img/mtg/mtg-nav-team.png) no-repeat;
     color: rgb(205, 7, 30);
+}
+
+html[lang="en"] body#body-people ul.main li.domain-25 a,
+html[lang="en"] ul.main li.domain-25 a:hover {
+	background: url(/img/mtg/mtg-nav-team-eng.png) no-repeat;
 }
 
 /* secondary menu */
