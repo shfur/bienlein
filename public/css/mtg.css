@@ -493,6 +493,10 @@ body#body-home .sidebar a {
 	color: rgb(210, 35, 42);
 }
 
+body#body-home .sidebar p {
+	margin-bottom: 1em;
+}
+
 /* on other pages content takes full advantage */
 
 body#body-privacy .content,
@@ -915,7 +919,8 @@ ul.main {
 }
 
 ul.main li,
-ul.secondary li {
+ul.secondary li,
+ul.language li {
     position: relative;
     display: inline;
     float: left;
@@ -926,7 +931,8 @@ ul.main li ul {
 }
 
 ul.main a,
-ul.secondary a {
+ul.secondary a,
+ul.language a {
     display: inline-block;
 }
 
@@ -973,14 +979,23 @@ ul.main li.domain-20 a {
     top: -5px;
     width: 125px;
     height: 50px;
-    background: url(/img/mtg/mtg-button-sortiment-d.png);
+    background-image: url(/img/mtg/mtg-button-sortiment-d.png);
     padding: 0;
+}
+
+html[lang="en"] ul.main li.domain-20 a {
+	background-image: url(/img/mtg/mtg-button-sortiment-eng-d.png);	
 }
 
 body#body-portfolio ul.main li.domain-20 a,
 ul.main li.domain-20 a:hover {
-	background: url(/img/mtg/mtg-button-sortiment-a.png);
+	background-image: url(/img/mtg/mtg-button-sortiment-a.png);
 	color: rgb(205, 7, 30);
+}
+
+html[lang="en"] body#body-portfolio ul.main li.domain-20 a,
+html[lang="en"] ul.main li.domain-20 a:hover {
+	background-image: url(/img/mtg/mtg-button-sortiment-eng-a.png);
 }
 
 /* contact nav hover and active */
@@ -991,20 +1006,29 @@ ul.main li.domain-25 a:hover {
 }
 
 /* secondary menu */
-ul.secondary {
+ul.secondary,
+ul.language {
     position: absolute;
     top: 360px;
-    right: 23px;
+    right: 89px;
     height: 3em;
     background: transparent;
 }
 
-ul.secondary a {
+ul.language {
+	right: 14px;
+}
+
+ul.secondary a,
+ul.language a {
     text-decoration: none;
     font-size: 16px;
     line-height: 13px;
     color: rgb(128, 130, 133);
     padding: 0 10px;
+}
+ul.language a {
+	padding: 0 5px;
 }
 
 /* navscroll */
@@ -1189,6 +1213,7 @@ th.fn-avail { width: 30px; }
 }
 .pdetails p.val {
 	padding-right: 1em;
+	line-height: 1;
 }
 
 .pdetails p.zub {
