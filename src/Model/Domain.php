@@ -110,9 +110,10 @@ class Model_Domain extends Model
      * @param bool (optional) $invisibles default to false so that invisible beans wont show up
      * @param string (optional) $attr
      * @param string (optional) $orderclause defaults to 'sequence'
+	 * @param bool (optional) $surpress languge in URL defaults to false
      * @return Cinnebar_Menu
      */
-    public function hierMenu($url_prefix = '', $lng = null, $invisible = false, $attr = 'url', $order = 'sequence ASC')
+    public function hierMenu($url_prefix = '', $lng = null, $invisible = false, $attr = 'url', $order = 'sequence ASC', $surpress_lng = false)
     {
         $sql_invisible = 'AND invisible != 1';
         if ($invisible) {
@@ -132,9 +133,9 @@ class Model_Domain extends Model
         foreach ($records as $record) {
             $menu->add(
                 $record->i18n($lng)->name,
-                Url::build($url_prefix.$record->{$attr}),
+                Url::build($url_prefix.$record->{$attr}, array(), $surpress_lng),
                 $record->getMeta('type').'-'.$record->getId(),
-                $record->hierMenu($url_prefix, $lng, $invisible, $attr, $order)
+                $record->hierMenu($url_prefix, $lng, $invisible, $attr, $order, $surpress_lng)
             );
         }
         return $menu;

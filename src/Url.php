@@ -28,11 +28,12 @@ class Url
      *
      * @param string $internalAbsUrl
      * @param array (optional) $parameters to be replaced within the given url
+	 * @param bool (optional) $surpress_lng defaults to false
      * @return string
      */
-    static public function build($internalAbsUrl, array $params = array())
+    static public function build($internalAbsUrl, array $params = array(), $surpress_lng = false)
     {
-       if (Flight::get('language') != Flight::get('default_language')) {
+       if (Flight::get('language') != Flight::get('default_language') && ! $surpress_lng) {
            $internalAbsUrl = '/'.Flight::get('language').$internalAbsUrl;
        }
        if ( ! empty($params)) {
