@@ -11,6 +11,12 @@
 			'class' => 'secondary'
 		)) ?>
     </nav>
+	<nav>
+		<ul class="language">
+			<li><a href="/en/"><?php echo I18n::__('mtg_lng_en') ?></a></li>
+			<li><a href="/"><?php echo I18n::__('mtg_lng_de') ?></a></li>
+		</ul>
+	</nav>
 	<div id="account">
 	<?php if ( ! $oxuser): ?>
 		<h3><?php echo I18n::__('mtg_login_h3') ?></h3>
