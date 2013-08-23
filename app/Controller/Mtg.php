@@ -156,23 +156,21 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_thead_template = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-product">%2$s</th><th class="fn-thumb">%5$s</th><th class="fn-package">%7$s</th><th class="fn-tgtk">%8$s</th><th class="fn-brand">%3$s</th><th class="fn-usage">%4$s</th><th class="fn-avail">%9$s</th></tr></thead>';
+	public $oxid_thead_template = '<thead><tr><th class="fn-artno">%1$s</th><th class="fn-thumb">%5$s</th><th class="fn-product">%2$s</th><th class="fn-package">%7$s</th><th class="fn-tgtk">%8$s</th><th class="fn-usage">%4$s</th><th class="fn-brand">%3$s</th><th class="fn-avail">%9$s</th></tr></thead>';
 
 	/**
 	 * Holds the template for an oxid article.
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_guest = '<tr><td>%1$s</td><td>%2$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail-list">%11$s</td></tr>';
+	public $oxid_art_template_guest = '<tr><td>%1$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%2$s</td><td>%7$s</td><td>%9$s</td><td>%4$s</td><td>%8$s</td><td class="tips-avail-list">%11$s</td></tr>';
 
 	/**
 	 * Holds the template for an oxid article when user is logged in.
 	 *
-	 * This has one table data cell more.
-	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><a href="/portfolio/%12$s">%2$s</a></td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td>%7$s</td><td>%9$s</td><td><img src="%3$s" title="%10$s" alt="%8$s" width="72px" /></td><td>%4$s</td><td class="tips-avail-list">%11$s</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td><a href="/portfolio/%12$s">%2$s</a></td><td>%7$s</td><td>%9$s</td><td>%4$s</td><td>%8$s</td><td class="tips-avail-list">%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
