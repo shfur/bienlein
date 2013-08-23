@@ -83,7 +83,7 @@
 				<?php echo I18n::__('mtg_pdetail_th_ls') ?>
 			</span>
 			<span
-				class="tips-avail span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
+				class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
 				title="<?php echo I18n::__('mtg_avail_'.$article['OXSTOCKFLAG']) ?>">
 				<?php echo htmlspecialchars($article['OXSTOCKFLAG']) ?>
 			</span>
