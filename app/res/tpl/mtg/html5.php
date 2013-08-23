@@ -15,7 +15,7 @@
 <!--[if gt IE 8]><!--><html lang="<?php echo $language ?>" class="no-js"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo $title ?></title>
+		<title>[MTG] - <?php echo $title ?></title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width">
 
