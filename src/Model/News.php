@@ -59,6 +59,15 @@ class Model_News extends Model
                     'tag' => 'text'
                 )
             ),
+			array(
+                'name' => 'teaser',
+                'sort' => array(
+                    'name' => 'news.teaser'
+                ),
+                'filter' => array(
+                    'tag' => 'text'
+                )
+            ),
             array(
                 'name' => 'online',
                 'sort' => array(
@@ -174,9 +183,11 @@ SQL;
         $this->addValidator('pubdatetime', array(
             new Validator_HasValue()
         ));
+		/*
         $this->addValidator('name', array(
             new Validator_HasValue()
         ));
+		*/
         $this->addValidator('teaser', array(
             new Validator_HasValue()
         ));
