@@ -1,6 +1,6 @@
 <div class="sidebar">
     <div class="navscroll">
-		<?php echo $domain->hierMenu('', Flight::get('language'))->render() ?>
+		<?php echo $domain->hierMenu('', Flight::get('language'), false, 'url', 'sequence ASC', true)->render() ?>
 		<a
 			id="scrolltop"
 			href="#top"
