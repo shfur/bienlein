@@ -170,7 +170,7 @@ class Controller_Mtg extends Controller
 	 *
 	 * @var string
 	 */
-	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td><a href="/portfolio/%12$s">%2$s</a></td><td>%7$s</td><td>%9$s</td><td>%4$s</td><td>%8$s</td><td class="tips-avail-list">%11$s</td></tr>';
+	public $oxid_art_template_cust = '<tr><td>%1$s</td><td><div class="cage"><img class="resizable" src="%5$s" alt="%2$s" width="60px" /></div></td><td><a href="%12$s">%2$s</a></td><td>%7$s</td><td>%9$s</td><td>%4$s</td><td>%8$s</td><td class="tips-avail-list">%11$s</td></tr>';
 	
 	/**
 	 * Holds the last entered searchterm.
@@ -240,7 +240,7 @@ class Controller_Mtg extends Controller
 		} else {
 			$_SESSION['msg'] = $mtg_login_failed;
 		}
-		$this->redirect(Flight::request()->data->goto);
+		$this->redirect(Flight::request()->data->goto, true);
 	}
 	
 	/**
@@ -249,7 +249,7 @@ class Controller_Mtg extends Controller
 	public function logout()
 	{
 		$_SESSION['oxuser'] = false;
-		$this->redirect('/home');
+		$this->redirect(Url::build('/home'), true);
 	}
 
 	
@@ -292,8 +292,10 @@ class Controller_Mtg extends Controller
 		$this->sidebar_template = 'pdetaillegend';
 		$this->page = R::dispense('page');
 		R::selectDatabase('oxid');
-		$articles = $this->getArticleById($oxartid, Flight::get('language'));
-		$attributes = $this->getAttributes($oxartid, Flight::get('language'));
+		//$lang = Flight::get('language');
+		$lang = 'de';
+		$articles = $this->getArticleById($oxartid, $lang);
+		$attributes = $this->getAttributes($oxartid, $lang);
 		$files = $this->getFilesByArtId($oxartid);
 		R::selectDatabase('default');
 		if (empty($articles)) {
@@ -385,7 +387,10 @@ class Controller_Mtg extends Controller
 		} else {
 			$art_template = $this->oxid_art_template_guest;
 		}
-
+		$link_prefix = '/portfolio/';
+		if (Flight::get('language') != Flight::get('default_language')) {
+			$link_prefix = '/'.Flight::get('language').'/portfolio/';
+		}
 		R::selectDatabase('oxid');
 		//do the twist
 		$tablename = $this->oxid_views['category'].'_'.$lang;
@@ -420,7 +425,7 @@ class Controller_Mtg extends Controller
 							$attributes['TG/TK'],
 							$article['manu_shortdesc'],
 							'<div title="'.$avail[$article['OXSTOCKFLAG']].'" class="avail avail-'.$article['OXSTOCKFLAG'].'">&nbsp;</div>',
-							$article['OXID']
+							$link_prefix.$article['OXID']
 					);
 				}
 			

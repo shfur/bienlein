@@ -23,7 +23,7 @@
 		<form
 			id="login"
 			method="post"
-			action="/mtg/login"
+			action="<?php echo Url::build('/mtg/login') ?>"
 			accept-charset="utf-8">
 			<div>
 				<input type="hidden" name="goto" value="<?php echo htmlspecialchars(Flight::request()->url) ?>" />
@@ -53,7 +53,7 @@
 		</form>
 	<?php else: ?>
 		<h3>
-			<a href="/mtg/logout"><?php echo I18n::__('mtg_logout_h3') ?></a>
+			<a href="<?php echo Url::build('/mtg/logout') ?>"><?php echo I18n::__('mtg_logout_h3') ?></a>
 		</h3>
 		<p id="oxidaccount"><?php echo I18n::__('mtg_account_welcome', null, array($oxuser['name'])) ?></p>
 	<?php endif ?>
