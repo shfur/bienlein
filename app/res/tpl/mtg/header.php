@@ -13,8 +13,11 @@
     </nav>
 	<nav>
 		<ul class="language">
+			<?php if (Flight::get('language') == Flight::get('default_language')): ?>
 			<li><a href="/en/"><?php echo I18n::__('mtg_lng_en') ?></a></li>
+			<?php else: ?>
 			<li><a href="/"><?php echo I18n::__('mtg_lng_de') ?></a></li>
+			<?php endif ?>
 		</ul>
 	</nav>
 	<div id="account">
