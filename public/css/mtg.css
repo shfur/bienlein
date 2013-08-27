@@ -624,6 +624,19 @@ body#body-newsdetail .sidebar {
 	margin-bottom: 0.5em;
 }
 
+.content article h2 {
+	font-family: 'Arial', sans-serif;
+	font-size: 20px;
+	letter-spacing: -1px;
+	line-height: 20px;
+}
+.content article h3 {
+	font-family: 'Arial', sans-serif;
+	font-size: 16px;
+	letter-spacing: -1px;
+	line-height: 30px;
+}
+
 .content .tiles {
 	position: relative;
 }
@@ -643,14 +656,17 @@ body#body-newsdetail .sidebar {
 .content p,
 .content ul,
 .content ol {
+	font-family: 'Arial', sans-serif;
 	margin-bottom: 1em;
-	line-height: 1.5;
+	font-size: 13px;
+	line-height: 22px;
+	text-align: justify;
     color: rgb(128, 130, 133);
 }
 
 .content ul,
 .content ol {
-	line-height: 1.2;
+	/*line-height: 1.2;*/
 }
 
 .content article:first-child {
@@ -1030,7 +1046,7 @@ ul.secondary,
 ul.language {
     position: absolute;
     top: 360px;
-    right: 116px;
+    right: 84px;
     height: 3em;
     background: transparent;
 }
