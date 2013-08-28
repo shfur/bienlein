@@ -624,13 +624,15 @@ body#body-newsdetail .sidebar {
 	margin-bottom: 0.5em;
 }
 
-.content article h2 {
+.content article h2,
+.sidebar.news h2 {
 	font-family: 'Arial', sans-serif;
 	font-size: 20px;
 	letter-spacing: -1px;
 	line-height: 20px;
 }
-.content article h3 {
+.content article h3,
+.sidebar.news h3 {
 	font-family: 'Arial', sans-serif;
 	font-size: 16px;
 	letter-spacing: -1px;
@@ -653,6 +655,9 @@ body#body-newsdetail .sidebar {
     display: none;
 }
 
+.sidebar.news p,
+.sidebar.news ul,
+.sidebar.news ol,
 .content p,
 .content ul,
 .content ol {
@@ -662,6 +667,12 @@ body#body-newsdetail .sidebar {
 	line-height: 22px;
 	text-align: justify;
     color: rgb(128, 130, 133);
+}
+
+.sidebar.news p,
+.sidebar.news ul,
+.sidebar.news ol {
+	line-height: 16px;
 }
 
 .content ul,
@@ -725,10 +736,11 @@ body#body-newsdetail .sidebar {
 }
 
 .content table tbody td {
+	font-family: 'Arial', sans-serif;
     color: rgb(128, 130, 133);
     padding: 1em 0.25em 1em 0.25em;
     vertical-align: middle;
-    font-size: 16px;
+    font-size: 13px;
 	position: relative;
 }
 div.cage {
@@ -872,6 +884,7 @@ form#contact p.contact-required-info {
 }
 
 .sidebar.news {
+	font-family: Arial, sans-serif;
 	width: 242px;
     background-color: white;
     color: rgb(128, 130, 133);
@@ -906,7 +919,7 @@ form#contact p.contact-required-info {
 	background: rgb(238, 246, 234) url(/img/mtg/mtg-news-header-bg.png) center left no-repeat;
 }
 
-.sidebar .news h3 {
+.sidebar.news h3 {
 	font-weight: normal;
 }
 
@@ -1244,6 +1257,12 @@ th.fn-avail { width: 30px; }
 	font-weight: normal;
 }
 
+.pdetails span.attr,
+.pdetails span.val {
+	font-family: 'Arial', sans-serif;
+	font-size: 13px;
+}
+
 .pdetails span.val {
 	color: rgb(128, 130, 133);
 }
@@ -1316,8 +1335,10 @@ legend {
 }
 
 label {
+	font-family: 'Arial', sans-serif;
     display: inline-block;
     font-weight: bold;
+	font-size: 13px;
     margin-bottom: 0.25em;
 }
 
