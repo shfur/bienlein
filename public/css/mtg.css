@@ -624,13 +624,17 @@ body#body-newsdetail .sidebar {
 	margin-bottom: 0.5em;
 }
 
-.content article h2,
-.sidebar.news h2 {
+.content article h2 {
 	font-family: 'Arial', sans-serif;
 	font-size: 20px;
 	letter-spacing: -1px;
 	line-height: 20px;
 }
+
+.sidebar.news h2 {
+	font-family: "DIN1451EF-EngNeu";
+}
+
 .content article h3,
 .sidebar.news h3 {
 	font-family: 'Arial', sans-serif;
@@ -742,6 +746,7 @@ body#body-newsdetail .sidebar {
     vertical-align: middle;
     font-size: 13px;
 	position: relative;
+	line-height: 1.2;
 }
 div.cage {
 	position: relative;
@@ -1205,12 +1210,12 @@ ol.bjqs-markers li a{display:inline-block;}
 p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
 
 /* make nice portfolio tables */
-th.fn-artno { width: 40px; }
+th.fn-artno { width: 38px; }
 th.fn-product { width: 170px; }
 th.fn-brand { width: 76px; }
 th.fn-usage { width: 180px; }
 th.fn-thumb { width: 60px; }
-th.fn-tgtk { width: 35px; }
+th.fn-tgtk { width: 25px; }
 th.fn-package { }
 th.fn-avail { width: 30px; }
 	
