@@ -626,7 +626,7 @@ body#body-newsdetail .sidebar {
 
 .content article h2 {
 	font-family: 'Arial', sans-serif;
-	font-size: 20px;
+	font-size: 18px;
 	letter-spacing: -1px;
 	line-height: 20px;
 }
@@ -640,7 +640,7 @@ body#body-newsdetail .sidebar {
 	font-family: 'Arial', sans-serif;
 	font-size: 16px;
 	letter-spacing: -1px;
-	line-height: 30px;
+	line-height: 22px;
 }
 
 .content .tiles {
