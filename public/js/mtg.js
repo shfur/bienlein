@@ -12,6 +12,7 @@ $(document).ready(function() {
 	 * @see http://stackoverflow.com/questions/9979827/change-active-menu-item-on-page-scroll and
 	 */
     // Cache selectors
+	/*
     var lastId;
     var topMenu = $('.navscroll');
     var topMenuHeight = topMenu.outerHeight() + offset;
@@ -22,7 +23,7 @@ $(document).ready(function() {
         var item = $($(this).attr("href"));
         if (item.length) { return item; }
     });
-
+	*/
 	jQuery(function($) {
 	    $('a[href$=".pdf"]').attr('target', '_blank');
 	});
@@ -68,9 +69,10 @@ $(document).ready(function() {
     // Bind to scroll
     $(window).scroll(function(){
        // Get container scroll position
-       var fromTop = $(this).scrollTop()+topMenuHeight;
+       //var fromTop = $(this).scrollTop()+topMenuHeight;
 
        // Get id of current scroll item
+		/*
        var cur = scrollItems.map(function(){
          if ($(this).offset().top < fromTop)
            return this;
@@ -81,7 +83,8 @@ $(document).ready(function() {
 
        menuItems
             .parent().removeClass("active")
-            .end().filter("[href=#"+id+"]").parent().addClass("active");                  
+            .end().filter("[href=#"+id+"]").parent().addClass("active");
+		*/
     });
   	if ( ! is_touch_device) {
 	    $(window).scroll(function() {

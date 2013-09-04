@@ -213,7 +213,7 @@ class Controller_Mtg extends Controller
 	{
 		if ($this->location == 'login') return $this->login();
 		if ($this->location == 'logout') return $this->logout();
-		if ($this->location == 'portfolio') return $this->portfolio();
+		//if ($this->location == 'portfolio') return $this->portfolio();
 		if ($this->location == 'home') return $this->home();
 		$this->render();
 	}
@@ -266,14 +266,14 @@ class Controller_Mtg extends Controller
 	/**
 	 * Renders the portfolio page.
 	 */
-	public function portfolio()
+	public function portfolio($catcode = null)
 	{
 		$this->sidebar_template = 'portfolio';
 		$this->q = Flight::request()->query->q;
 		if ( ! $this->oxuser) 
 				$this->content .= Flight::textile(I18n::__('mtg_login_to_see_details'));
 		//$this->getOxidContent(Flight::get('language'));
-		$this->getOxidContent('de');
+		$this->getOxidContent('de', $catcode);
 		$this->render();
 	}
 	
@@ -359,9 +359,10 @@ class Controller_Mtg extends Controller
 	 * For all categories and articles in thoses categories we
 	 * create a header and a table.
 	 * 
-	 * @var string $lang
+	 * @param string $lang
+	 * @param string $catcode
 	 */
-	protected function getOxidContent($lang)
+	protected function getOxidContent($lang, $catcode)
 	{
 		$i18n_empty = I18n::__('mtg_cat_empty');
 		$avail = array(
@@ -387,19 +388,26 @@ class Controller_Mtg extends Controller
 		} else {
 			$art_template = $this->oxid_art_template_guest;
 		}
-		$link_prefix = '/portfolio/';
+		$link_prefix = '/product/';
 		if (Flight::get('language') != Flight::get('default_language')) {
-			$link_prefix = '/'.Flight::get('language').'/portfolio/';
+			$link_prefix = '/'.Flight::get('language').'/product/';
 		}
 		R::selectDatabase('oxid');
 		//do the twist
 		$tablename = $this->oxid_views['category'].'_'.$lang;
 		$this->categories = R::getAll('SELECT * FROM '.$tablename.' ORDER BY oxsort');
-		
-		foreach ($this->categories as $n => $category) {			
-			$articles = $this->getArticles($category['OXID'], $lang);
-			
-			$this->content .= '<article class="category" id="cat-'.$category['OXID'].'">'."\n";
+		if ( ! $catcode) {
+			$category = reset($this->categories);
+			$catcode = $category['OXID'];
+		} else {
+			$category = R::getRow('SELECT * FROM '.$tablename.' WHERE OXID = ?', array($catcode));
+		}
+		Flight::set('current_catcode', $catcode);
+		//foreach ($this->categories as $n => $category) {			
+			//$articles = $this->getArticles($category['OXID'], $lang);
+			$articles = $this->getArticles($catcode, $lang);
+			//$this->content .= '<article class="category" id="cat-'.$category['OXID'].'">'."\n";
+			$this->content .= '<article class="category" id="cat-'.$catcode.'">'."\n";
 			$this->content .= sprintf($this->oxid_cat_template, $category['OXTITLE'], Flight::get('oxid_path_cat').$category['OXTHUMB'])."\n";
 			
 			if (empty($articles)) {
@@ -435,7 +443,7 @@ class Controller_Mtg extends Controller
 			
 			$this->content .= '</article>';
 			
-		}
+		//}
 		
 		R::selectDatabase('default');
 	}

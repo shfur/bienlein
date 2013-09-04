@@ -8,8 +8,12 @@
 			placeholder="<?php echo I18n::__('mtg_q_placeholder') ?>" />
 		<ul>
 			<?php foreach ($categories as $n => $category): ?>
-			<li>
-				<a href="#cat-<?php echo $category['OXID'] ?>"><?php echo htmlspecialchars($category['OXTITLE']) ?></a>
+			<li
+				class="<?php echo (Flight::get('current_catcode') == $category['OXID']) ? 'active' : '' ?>">
+				<a
+					href="<?php echo Url::build('/portfolio/'.$category['OXID']) ?>">
+					<?php echo htmlspecialchars($category['OXTITLE']) ?>
+				</a>
 			</li>
 			<?php endforeach ?>
 		</ul>

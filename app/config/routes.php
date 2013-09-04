@@ -193,9 +193,15 @@ Flight::route('(/[a-z]{2})/forbidden', function() {
 /**
  * Route to MTG product detail page.
  */
-Flight::route('(/[a-z]{2})/portfolio/@product:[a-z0-9]{32}', function($oxartid) {
+Flight::route('(/[a-z]{2})/product/@product:[a-z0-9]{32}', function($oxartid) {
 	$mtgController = new Controller_Mtg('productdetail');
 	$mtgController->productDetail($oxartid);
+});
+
+Flight::route('(/[a-z]{2})/portfolio(/@catcode:[a-z0-9]{32})', function($catcode) {
+	if ( ! $catcode) $catcode = null;
+	$mtgController = new Controller_Mtg('portfolio');
+	$mtgController->portfolio($catcode);
 });
 
 /**
