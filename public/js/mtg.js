@@ -110,13 +110,13 @@ $(document).ready(function() {
 	 */
 	$("#q").keyup(function(){
 		// When value of the input is not blank
-        var term=$(this).val()
+        var term=$(this).val();
 		if( term != "")
 		{
 			// Show only matching TR, hide rest of them
 			$("article.category tbody>tr").hide();
             $("article.category td").filter(function(){
-                   return $(this).text().toLowerCase().indexOf(term ) >-1
+                   return $(this).text().toLowerCase().indexOf(term.toLowerCase()) >-1
             }).parent("tr").show();
 		}
 		else
