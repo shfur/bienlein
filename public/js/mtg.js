@@ -40,7 +40,12 @@ $(document).ready(function() {
 	});
 	
 	$("div.cage").click(function(e) {
-		$(this).find("img.resizable").toggleClass("resize");
+		//$(this).find("img.resizable").toggleClass("resize");
+		var img = $(this).find("img.resizable");
+		var big = $(img).attr("data-big");
+		$(img).attr("data-big", $(img).attr("src"))
+			  .attr("src", big)
+			  .toggleClass("resize");
 	});
 
 	/**
