@@ -396,18 +396,20 @@ class Controller_Mtg extends Controller
 		//do the twist
 		$tablename = $this->oxid_views['category'].'_'.$lang;
 		$this->categories = R::getAll('SELECT * FROM '.$tablename.' ORDER BY oxsort');
+		/*
 		if ( ! $catcode) {
 			$category = reset($this->categories);
 			$catcode = $category['OXID'];
 		} else {
 			$category = R::getRow('SELECT * FROM '.$tablename.' WHERE OXID = ?', array($catcode));
 		}
+		*/
 		Flight::set('current_catcode', $catcode);
-		//foreach ($this->categories as $n => $category) {			
-			//$articles = $this->getArticles($category['OXID'], $lang);
-			$articles = $this->getArticles($catcode, $lang);
-			//$this->content .= '<article class="category" id="cat-'.$category['OXID'].'">'."\n";
-			$this->content .= '<article class="category" id="cat-'.$catcode.'">'."\n";
+		foreach ($this->categories as $n => $category) {			
+			$articles = $this->getArticles($category['OXID'], $lang);
+			//$articles = $this->getArticles($catcode, $lang);
+			$this->content .= '<article class="category" id="cat-'.$category['OXID'].'">'."\n";
+			//$this->content .= '<article class="category" id="cat-'.$catcode.'">'."\n";
 			$this->content .= sprintf($this->oxid_cat_template, $category['OXTITLE'], Flight::get('oxid_path_cat').$category['OXTHUMB'])."\n";
 			
 			if (empty($articles)) {
@@ -444,7 +446,7 @@ class Controller_Mtg extends Controller
 			
 			$this->content .= '</article>';
 			
-		//}
+		}
 		
 		R::selectDatabase('default');
 	}

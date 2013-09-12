@@ -60,6 +60,7 @@ class Model_Contact extends Model
 		ob_end_clean();
 		//build the mail
 		$mail = new PHPMailer();
+		$mail->CharSet = 'UTF-8';
 		$mail->isHTML(true);
 		$mail->From = self::TO_EMAILADDRESS;
 		$mail->FromName = self::TO_EMAILADDRESS_NAME;

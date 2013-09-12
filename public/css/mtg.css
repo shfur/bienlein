@@ -12,6 +12,12 @@
 /* Let's default this puppy out
 -------------------------------------------------------------------------------*/
 
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/27b837");
+
+  
+@font-face {font-family: 'DIN1451EF-EngNeu';src: url('webfonts/27B837_0_0.eot');src: url('webfonts/27B837_0_0.eot?#iefix') format('embedded-opentype'),url('webfonts/27B837_0_0.woff') format('woff'),url('webfonts/27B837_0_0.ttf') format('truetype');}
+
 html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
 	margin: 0;
 	padding: 0;
@@ -1266,6 +1272,10 @@ th.fn-avail { width: 30px; }
 .pdetails span.val {
 	font-family: 'Arial', sans-serif;
 	font-size: 13px;
+}
+
+.pdetails span.attr {
+	font-weight: bold;
 }
 
 .pdetails span.val {

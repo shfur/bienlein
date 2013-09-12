@@ -25,29 +25,29 @@
 		</div>
 		
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_artno') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo htmlspecialchars($article['OXARTNUM']) ?>
 			</span>
 		</div>
 		
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_category') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo ($article['cat_title']) ?>
 			</span>
 		</div>
 		
 		<?php if (isset($attributes['Gebinde'])): ?>
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_package') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo ($attributes['Gebinde']) ?>
 			</span>
 		</div>
@@ -55,20 +55,20 @@
 		
 		<?php if (isset($attributes['TG/TK'])): ?>
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_tgtk') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo htmlspecialchars($attributes['TG/TK']) ?>
 			</span>
 		</div>
 		<?php endif ?>
 		
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_manufacturer') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo htmlspecialchars($article['manu_title']) ?><br />
 				<img
 					src="<?php echo Flight::get('oxid_path_manu').$article['manu_icon'] ?>"
@@ -79,11 +79,11 @@
 		</div>
 		
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_pdetail_th_ls') ?>
 			</span>
 			<span
-				class="span9 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
+				class="span8 val ir avail avail-<?php echo $article['OXSTOCKFLAG'] ?>"
 				title="<?php echo I18n::__('mtg_avail_'.$article['OXSTOCKFLAG']) ?>">
 				<?php echo htmlspecialchars($article['OXSTOCKFLAG']) ?>
 			</span>
@@ -91,10 +91,10 @@
 		
 		<?php if (isset($attributes['Mindesthaltbarkeit'])): ?>
 		<div class="row">
-			<span class="span3 attr">
+			<span class="span4 attr">
 				<?php echo I18n::__('mtg_th_mhd') ?>
 			</span>
-			<span class="span9 val">
+			<span class="span8 val">
 				<?php echo htmlspecialchars($attributes['Mindesthaltbarkeit']) ?>
 			</span>
 		</div>
