@@ -746,12 +746,15 @@ body#body-newsdetail .sidebar {
 }
 
 .content table.imprint {
+	margin-top: 2em;
 	table-layout: auto;
 	width: auto;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 .content table.imprint tbody td,
 .content table.imprint tbody tr:nth-child(even) td {
-	padding: 0 0.25em;
+	padding: 0 0.25em 0.5em 0;
 	background-color: transparent;
 }
 
