@@ -104,9 +104,9 @@
 			<span class="attr">
 				<?php echo I18n::__('mtg_th_shortdesc') ?>
 			</span><br />
-			<span class="val">
-				<?php echo htmlspecialchars($article['OXSHORTDESC']) ?>
-			</span>
+			<p class="val">
+				<?php echo ($article['OXSHORTDESC']) ?>
+			</p>
 		</div>
 		
 		<div class="row">

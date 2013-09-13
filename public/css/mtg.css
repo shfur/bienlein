@@ -745,6 +745,16 @@ body#body-newsdetail .sidebar {
     background-color: rgb(245, 249, 242);
 }
 
+.content table.imprint {
+	table-layout: auto;
+	width: auto;
+}
+.content table.imprint tbody td,
+.content table.imprint tbody tr:nth-child(even) td {
+	padding: 0 0.25em;
+	background-color: transparent;
+}
+
 .content table tbody td {
 	font-family: 'Arial', sans-serif;
     color: rgb(128, 130, 133);
@@ -1283,7 +1293,7 @@ th.fn-avail { width: 30px; }
 }
 .pdetails p.val {
 	padding-right: 1em;
-	line-height: 1;
+	line-height: 1.3;
 }
 
 .pdetails p.zub {
