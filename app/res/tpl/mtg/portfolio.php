@@ -11,7 +11,7 @@
 			<li
 				class="<?php echo (Flight::get('current_catcode') == $category['OXID']) ? 'active' : '' ?>">
 				<a
-					href="<?php echo Url::build('#cat-'.$category['OXID']) ?>">
+					href="<?php echo '#cat-'.$category['OXID'] ?>">
 					<?php echo htmlspecialchars($category['OXTITLE']) ?>
 				</a>
 			</li>
