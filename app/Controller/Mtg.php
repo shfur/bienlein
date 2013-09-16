@@ -473,7 +473,8 @@ class Controller_Mtg extends Controller
 		LEFT JOIN
 			oxv_oxmanufacturers_%1\$s AS manu ON manu.oxid = art.oxmanufacturerid
 		WHERE
-			cat.oxcatnid = ?
+			cat.oxcatnid = ? AND
+			art.oxactive = 1
 		ORDER BY
 			cat.oxpos, art.oxartnum
 SQL;
