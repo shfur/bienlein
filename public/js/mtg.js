@@ -26,6 +26,7 @@ $(document).ready(function() {
 	
 	jQuery(function($) {
 	    $('a[href$=".pdf"]').attr('target', '_blank');
+		$("a.external").attr("target", "_blank");
 	});
 	
 	$(".tips-avail").data('powertip', '<img src="/img/mtg/mtg-over-verfuegbarkeit.png" width="150" height="111" alt="" />');
